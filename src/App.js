@@ -21,6 +21,15 @@ import Addcolor from './pages/addcolor'
 import Addproduct from './pages/Addproduct'
 import Client from './pages/clients'
 import Orderlist from './pages/order'
+import Couponadded from './pages/addcoupon'
+import Couponlist from './pages/couponlist'
+import Alert from './pages/Alert'
+import Views from './pages/Views'
+import Prf from './pages/Profil'
+import Vieworder from './pages/Vieworder'
+import Addfournisseur from './pages/Addfournisseur'
+import Addproductqr from './pages/Addproductqr'
+import Profil from './pages/Profil'
 
 function App() {
   return (
@@ -32,21 +41,38 @@ function App() {
         <Route path='/admin' element={<Mainlyout />}>
           <Route index element={<Dashbord />} /> {/* Tableau de bord */}
           <Route path='enquiries' element={<Enquiries />} />
+          <Route path='enquiries/:id' element={<Enquiries />} />
           <Route path='list-blog' element={<Bloglist/>}/>
           <Route path='blog-category-list' element={<BlogcategoryList/>}/>
           <Route path='product-list' element={<Productlist/>}/>
           <Route path='product' element={<Addproduct/>}/>
+          <Route path='product/:id' element={<Addproduct/>}/>
           <Route path='brand-list' element={<Brandlist/>}/>
           <Route path='brand' element={<Addbrandcategory/>}/>
+          {/* <Route path='brand/:id' element={<Alert/>}/> */}
+          <Route path='brand/:id' element={<Addbrandcategory/>}/>
+          <Route path='list-coupon' element={<Couponlist/>}/>
+          <Route path='add-coupon' element={<Couponadded/>}/>
+          <Route path='add-coupon/:id' element={<Couponadded/>}/>
           <Route path='category-list' element={<Categorylist/>}/>
           <Route path='category' element={<Addcategory/>}/>
+          <Route path='category/:id' element={<Addcategory/>}/>
           <Route path='color' element={<Addcolor/>}/>
+          <Route path='color/:id' element={<Addcolor/>}/>
           <Route path='color-list' element={<Colorlist/>}/>
           <Route path='list-fournisseur' element={<Fournisseurlist/>}/>
+          <Route path='add-fournisseur' element={<Addfournisseur/>}/>
           <Route path='Add-blog' element={<Addblog/>}/>
+          <Route path='Add-blog/:id' element={<Addblog/>}/>
           <Route path='blog-category' element={<Addblogcategory/>}/>
+          <Route path='blog-category/:id' element={<Addblogcategory/>}/>
           <Route path='customers' element={<Client/>}/>
           <Route path='order' element={<Orderlist/>}/>
+          <Route path='vieworder/:id' element={<Vieworder/>}/>
+          <Route path='profil/:id' element={<Profil/>}/>
+          <Route path='add-product-qr' element={<Addproductqr/>}/>
+          <Route path='add-fournisseur/:id' element={<Addfournisseur/>}/>
+          
 
         
         </Route>

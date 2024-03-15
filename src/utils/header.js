@@ -4,7 +4,8 @@ import axios from "axios";
 const getHeader = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user || !user.token) {
-        throw new Error("No token found in local storage");
+        console.warn("No token found in local storage");
+        return null; // Retourne null si aucun jeton n'est trouvé
     }
 
     const token = user.token;
@@ -15,4 +16,5 @@ const getHeader = () => {
         }
     };
 }
+
 export default getHeader;

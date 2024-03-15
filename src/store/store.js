@@ -10,6 +10,7 @@ import fournisseurReducer from "../feature/list-fournisseur/fournisseurSlice";
 import blogcategoryReducer from "../feature/bloglist/bloglistslice";
 import enquiryReducer from "../feature/enquiry/enquiryslice"; 
 import uploadReducer from "../feature/uploadimage/uploadslice"
+import couponReducer from "../feature/coupon/couponslice"
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
     fournisseur : fournisseurReducer,
     category_blog : blogcategoryReducer,
     enquiry : enquiryReducer,
-    upload :uploadReducer
+    upload :uploadReducer,
+    coupon: couponReducer
    
 
 

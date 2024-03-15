@@ -1,4 +1,4 @@
-import { createSlice , createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction,createSlice , createAsyncThunk } from "@reduxjs/toolkit";
 import authservice from "./authservice";
 
 
@@ -8,6 +8,7 @@ const getuserlocalstorage = localStorage.getItem("user")? JSON.parse(localStorag
 const initialState = {
     user : getuserlocalstorage,
     order: [],
+    user1: [],
     isError: false,
     isLoading:false,
     isSuccess:false,
@@ -25,7 +26,39 @@ return await authservice.login(user)
         }
     }
 )
+export const getuser = createAsyncThunk(
+    "auth/admin-profil",
+    async(user,thunkAPI)=>{
+        try{
+return await authservice.getauser(user)
+        }catch(error){
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
 
+
+export const getauser = createAsyncThunk(
+    "auth/getauser",
+    async(user,thunkAPI)=>{
+        try{
+return await authservice.getuser(user)
+        }catch(error){
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+export const getuserid = createAsyncThunk(
+    "auth/getuserid",
+    async (id,thunkAPI) => {
+      try {
+        await authservice.getusebyid(id);
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
+      }
+    }
+  );
+  
 export const getordrs = createAsyncThunk(
     "order/getallordrs",
     async(thunkAPI)=>{
@@ -36,7 +69,7 @@ return await authservice.getAllorders();
         }
     }
 )
-
+export const logaut = createAction("reset_all");
 export const authSlice = createSlice(
     {
         name:"auth",
@@ -74,6 +107,54 @@ export const authSlice = createSlice(
                                 state.isError=true;
                                 state.message = action.error;
                                 } )
+
+                                .addCase(getauser.pending ,(state)=>{
+                                    state.isLoading = true;
+                                    } )
+                                    .addCase(getauser.fulfilled ,(state,action)=>{
+                                        state.isLoading = false;
+                                        state.isSuccess = true;
+                                        state.isError=false;
+                                        state.nor_user= action.payload;
+                                        } )
+                                        .addCase(getauser.rejected ,(state,action)=>{
+                                            state.isLoading = false;
+                                            state.isSuccess = false;
+                                            state.isError=true;
+                                            state.message = action.error;
+                                            } )
+
+                                            .addCase(getuserid.pending ,(state)=>{
+                                                state.isLoading = true;
+                                                } )
+                                                .addCase(getuserid.fulfilled ,(state,action)=>{
+                                                    state.isLoading = false;
+                                                    state.isSuccess = true;
+                                                    state.isError=false;
+                                                    state.userbyid= action.payload;
+                                                    state.message="success"
+                                                    } )
+                                                    .addCase(getuserid.rejected ,(state,action)=>{
+                                                        state.isLoading = false;
+                                                        state.isSuccess = false;
+                                                        state.isError=true;
+                                                        state.message = action.error;
+                                                        } )
+                                                        .addCase(getuser.pending ,(state)=>{
+                                                            state.isLoading = true;
+                                                            } )
+                                                            .addCase(getuser.fulfilled ,(state,action)=>{
+                                                                state.isLoading = false;
+                                                                state.isSuccess = true;
+                                                                state.isError=false;
+                                                                state.nor_user= action.payload;
+                                                                } )
+                                                                .addCase(getuser.rejected ,(state,action)=>{
+                                                                    state.isLoading = false;
+                                                                    state.isSuccess = false;
+                                                                    state.isError=true;
+                                                                    state.message = action.error;
+                                                                    } ).addCase(logaut, () => initialState);
         }
     }
 )

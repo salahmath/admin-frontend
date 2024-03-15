@@ -7,9 +7,14 @@ const getAllusers = async()=>{
 return response.data;
 }
 
+const delusers = async(data)=>{
+    const response = await axios.delete(`${url}user/deleteauser/${data}`)
+return response.data;
+}
+
 
 
 const custermerService = {
-    getAllusers,
+    getAllusers,delusers
 };
 export default custermerService

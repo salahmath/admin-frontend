@@ -2,20 +2,27 @@ import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Customlogin from "../componentes/Coustomlogin";
 import { useFormik } from "formik";
-import {  useNavigate } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
 import { object, string, number, array, date, InferType } from "yup";
-import { creecategories } from "../feature/category-product/categorySlice";
+import { creecategories, getacategories, resetstt, updatecategorie } from "../feature/category-product/categorySlice";
 
 function Addcategory() {
+
   let userSchema = object({
-    name: string().required("il faut ecriver votre title"),
+    name: string().required("Veuillez saisir un category."),
 
   });
   const categorystate = useSelector((state) => state.category);
+  const { isSuccess, isError, isLoading ,category , ismessage,isupdeted  , categorys} = categorystate;
+
 const navigate = useNavigate()
 const dispatch = useDispatch()
+const location = useLocation()
+const loca = location.pathname.split("/")[3]
+
+
 
   const formik = useFormik({
     initialValues: {
@@ -24,30 +31,54 @@ const dispatch = useDispatch()
     
     validationSchema: userSchema,
     onSubmit: (values) => {
-     dispatch(creecategories(values))
+      if(loca!==undefined){
+        const data = {id:loca , data:values}
+        dispatch(updatecategorie(data))
+      }else{
+        dispatch(creecategories(values))
+      }
+     
       formik.resetForm();
       setTimeout(() => {
-        navigate("/admin/category-list")
+        dispatch(resetstt())
       }, 3000);   
       /* alert(JSON.stringify(values)); */
     },
   });
-  
-  const { isSuccess, isError, isLoading ,category} = categorystate;
+  useEffect(()=>{
+    if(loca!==undefined){
+    dispatch(getacategories(loca))
+     formik.values.name = categorys;
+     
+     
+    }else{
+      dispatch(resetstt())
+    }
+  },[categorys])
   
   useEffect(() => {
-    if (isSuccess && category) {
-      toast.success('category ajouté');
+    if (isSuccess && category && ismessage) {
+      toast.success('La nouvelle category a été ajoutée avec succès.');
     }
     if (isError) {
       toast.error('Erreur lors de l\'ajout du category');
     }
-  }, [isSuccess, isError, isLoading]);
+  }, [isSuccess, isError, isLoading,ismessage ]);
+
+
+  useEffect(() => {
+   if (isSuccess && isupdeted && categorys) {
+      toast.success('la category a été mise à jour avec succès.');
+    }
+    if (isError) {
+      toast.error('Erreur lors de l\'ajout du category');
+    }
+  }, [isSuccess, isError, isLoading,isupdeted ]);
   
   
   return (
     <div>
-      <h3 > ajouter une categorie</h3>
+      <h3 > {(loca!==undefined)?"Modifier le category":"Ajouter une categorie"} une categorie</h3>
       <br />
       <form onSubmit={formik.handleSubmit}>
       <Customlogin  name="name"
@@ -58,7 +89,7 @@ const dispatch = useDispatch()
             {formik.touched.name && formik.errors.name}
           </div>
       <br />
-      <Button type="submit" variant="outline-success" className="btn1">ajouter</Button>
+      <Button type="submit" variant="outline-success" className="btn1">{(loca!==undefined)?"Modifier une category":"Ajouter une category"} </Button>
       </form>
     </div>
   );

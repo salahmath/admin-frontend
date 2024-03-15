@@ -30,12 +30,11 @@ const  Login=()=>{
     (state)=> state.auth
   )
   useEffect(()=>{
-if(!user=="null" || isSuccess){
+if(user!=="null" && isSuccess){
   navigate("admin")
 }else{
   navigate("")
 }
-
   },[user,isLogin , isSuccess , isError , message])
   return (
     <>

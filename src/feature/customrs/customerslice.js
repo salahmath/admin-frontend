@@ -11,6 +11,16 @@ return await custermerService.getAllusers();
         }
     }
 )
+export const delUsers = createAsyncThunk(
+    "custemrs/delcustomrs",
+    async(data,thunkAPI)=>{
+        try{
+return await custermerService.delusers(data);
+        }catch(error){
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
 const initialState = {
     customers : [],
     isError: false,
@@ -39,7 +49,21 @@ export const custermerSlice= createSlice({
                     state.isSuccess = false;
                     state.isError=true;
                     state.message = action.error;
-                    } )
+                    } ).addCase(delUsers.pending ,(state)=>{
+                        state.isLoading = true;
+                        } )
+                        .addCase(delUsers.fulfilled ,(state,action)=>{
+                            state.isLoading = false;
+                            state.isSuccess = true;
+                            state.isError=false;
+                            state.customers = action.payload;
+                            } )
+                            .addCase(delUsers.rejected ,(state,action)=>{
+                                state.isLoading = false;
+                                state.isSuccess = false;
+                                state.isError=true;
+                                state.message = action.error;
+                                } )
     },
 })
 

@@ -13,8 +13,21 @@ const creecategoryblog = async(data)=>{
 return response.data;
 }
 
+const getagoryblog = async(data)=>{
+    const response = await axios.get(`${url}blogcategory/getcategory/${data}`,header)
+return response.data;
+}
+const updateategoryblog = async(data)=>{
+    const response = await axios.put(`${url}blogcategory/updatecategory/${data.id}`,{name : data.data.name},header)
+return response.data;
+}
+const deletegoryblog = async(data)=>{
+    const response = await axios.delete(`${url}blogcategory/deletecategory/${data}`,header)
+return response.data;
+}
+
 
 const categoryblogService = {
-    getAllcategoryblog,creecategoryblog
+    getAllcategoryblog,creecategoryblog,updateategoryblog,deletegoryblog,getagoryblog
 };
 export default categoryblogService
