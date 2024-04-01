@@ -8,6 +8,16 @@ import { useDispatch, useSelector } from 'react-redux';
 const  Login=()=>{
   const Dispatch = useDispatch();
   const navigate  = useNavigate();
+  const {user , isLogin , isSuccess , isError , message}=useSelector(
+    (state)=> state.auth
+  )
+  useEffect(()=>{
+if(user!=="null" && isSuccess ){
+  navigate("admin")
+}else{
+  navigate("")
+}
+  },[user,isLogin , isSuccess , isError , message,navigate])
   let userSchema = object({
 
     email: string().email('il faut ecriver un email validé').required("il faut ecriver votre email"),
@@ -23,19 +33,9 @@ const  Login=()=>{
     validationSchema: userSchema,
     onSubmit: (values) => {
       Dispatch(login(values))
-      alert(JSON.stringify(values, null, 2));
     },
   });
-  const {user , isLogin , isSuccess , isError , message}=useSelector(
-    (state)=> state.auth
-  )
-  useEffect(()=>{
-if(user!=="null" && isSuccess){
-  navigate("admin")
-}else{
-  navigate("")
-}
-  },[user,isLogin , isSuccess , isError , message])
+ 
   return (
     <>
       <div className='py-5' style={{background: "#9c9a4c" , minHeight:"100vh"}}>

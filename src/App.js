@@ -30,6 +30,7 @@ import Vieworder from './pages/Vieworder'
 import Addfournisseur from './pages/Addfournisseur'
 import Addproductqr from './pages/Addproductqr'
 import Profil from './pages/Profil'
+import InvoicePage from './pages/facure'
 
 function App() {
   return (
@@ -70,6 +71,7 @@ function App() {
           <Route path='order' element={<Orderlist/>}/>
           <Route path='vieworder/:id' element={<Vieworder/>}/>
           <Route path='profil/:id' element={<Profil/>}/>
+          <Route path='facture' element={<InvoicePage/>}/>
           <Route path='add-product-qr' element={<Addproductqr/>}/>
           <Route path='add-fournisseur/:id' element={<Addfournisseur/>}/>
           

@@ -1,169 +1,143 @@
-import React from "react";
-import { Divider, Table } from 'antd';
+import React ,{useState}from "react";
+import { Table } from 'antd';
 import { Column } from '@ant-design/plots';
 
 import { GrDescend } from "react-icons/gr";
+import { useDispatch,useSelector } from "react-redux";
+import { useEffect } from "react";
+import { Getmonth, Getmonth2, Getorders } from "../feature/auth/authslice";
+
 function Dashbord() {
+const [datas ,setdatas]=useState([])
   const columns1 = [
+    {
+      title: 'key',
+      dataIndex: 'key',
+    },
     {
       title: 'Name',
       dataIndex: 'name',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
+      title: 'mobile',
+      dataIndex: 'mobile',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-    },
-  ];
-  const data1 = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
+      title: 'produit count',
+      dataIndex: 'count',
     },
     {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
+      title: 'total prix',
+      dataIndex: 'prixtotal',
     },
     {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-  ];
-  const data = [
-    {
-      type: 'Janvier',
-      sales: 38,
+      title: 'prix after descount',
+      dataIndex: 'prixafterdescount',
     },
     {
-      type: 'Fevrier',
-      sales: 180,
+      title: 'status',
+      dataIndex: 'status',
     },
-    {
-      type: 'Mars',
-      sales: 61,
-    },
-    {
-      type: 'Avril',
-      sales: 145,
-    },
-    {
-      type: 'Mai',
-      sales: 48,
-    },
-    {
-      type: 'Juin',
-      sales: 32,
-    },
-    {
-      type: 'Juilliet',
-      sales: 48,
-    },
-    {
-      type: 'Out',
-      sales: 28,
-    },
-    {
-      type: 'Septembre',
-      sales: 88,
-    },
-    {
-      type: 'October',
-      sales: 98,
-    },
-    {
-      type: 'November',
-      sales: 18,
-    },
-    {
-      type: 'December',
-      sales: 8,
-    },
-    
   ];
   
   const config = {
-    data,
-    color: ({ type }) => {
-        return '#9c9a4c'; // Correction : retirez !important
-    },
+    data: datas,
+    color: '#ff0000', // Nouvelle couleur (par exemple, rouge)
+    
     xField: 'type',
     yField: 'sales',
     
     label: {
-      position: 'top',
-      style: {
-        fill: "#ffffff",
-        opacity: 0.6,
-      },
+        position: 'top',
+        style: {
+            fill: "#ffffff",
+            opacity: 0.6,
+        },
     },
     xAxis: {
-      label: {
-        autoHide: true,
-        autoRotate: false,
-      },
+        label: {
+            autoHide: true,
+            autoRotate: false,
+        },
     },
     meta: {
-      type: {
-        alias: 'Month',
-      },
-      sales: {
-        alias: 'Incomes',
-      },
+        type: {
+            alias: 'Month',
+        },
+        sales: {
+            alias: 'Incomes',
+        },
     },
 };
+
+const dispatch = useDispatch()
+useEffect(()=>{
+dispatch(Getmonth())
+dispatch(Getmonth2())
+dispatch(Getorders())
+
+},[dispatch])
+const dashstate = useSelector((state) => state?.auth?.Getmonthdetail);
+const dashstate2 = useSelector((state) => state?.auth?.Getyears);
+const order = useSelector((state) => state?.auth?.Getorders);
+const data1 = [];
+  for (let i = 0; i < order?.length; i++) {
+    const orderItem = order[i]; // Obtenir l'élément de commande à l'index i
+    
+    data1.push({
+      key:i+1,
+        name: orderItem?.user.lastname,
+        mobile: orderItem?.user.mobile,
+        count: orderItem?.orderItems.length,
+        prixtotal: orderItem?.totalPrice,
+        prixafterdescount: orderItem?.totalPriceAfterdiscount,
+        status: orderItem?.orderStatus
+    });
+}
+useEffect(() => {
+  let monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  let data2 = [];
+
+  for (let i = 0; i < dashstate?.length; i++) {
+    data2.push({
+      type: monthNames[dashstate[i]?._id?.month],
+      sales: dashstate[i]?.count
+    });
+  }
+
+  setdatas(data2)
+
+
+
+// Utilisez une boucle for pour parcourir order
+
+}, [dashstate]);
 
   return (
     <>
       <div className="d-flex justify-content-between align-items-center gap-3">
+        
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
             <p className=""> total</p>
-            <h4 className="mb-0">100dt</h4>
+            <h4 className="mb-0">{dashstate2 && dashstate2[0]?.amount}DT</h4>
           </div>
           <div className="d-flex flex-column align-items-end ">
-            <h6 className="color">
-              <GrDescend />
-              20%
-            </h6>
+           
+            <p className="mb-0">Montant total vendu</p>
 
-            <p className="mb-0">comparer avec le mois precedent</p>
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
           <div>
             <p className=""> total</p>
-            <h4 className="mb-0">100dt</h4>
+            <h4 className="mb-0">{dashstate2  && dashstate2[0]?.count}</h4>
           </div>
           <div className="d-flex flex-column align-items-end ">
-            <h6 className="color">
-              <GrDescend />
-              20%
-            </h6>
-
-            <p className="mb-0">comparer avec le mois precedent</p>
-          </div>
-        </div>
-        <div className="d-flex justify-content-between align-items-end flex-grow-1 bg-white p-3 roudned-3">
-          <div>
-            <p className=""> total</p>
-            <h4 className="mb-0">100dt</h4>
-          </div>
-          <div className="d-flex flex-column align-items-end ">
-            <h6   className="color">
-              <GrDescend />
-              20%
-            </h6>
-
-            <p className="mb-0">comparer avec le mois precedent</p>
+          Total des orders
           </div>
         </div>
         

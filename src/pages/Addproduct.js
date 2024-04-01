@@ -276,6 +276,7 @@ function Addproduct() {
             <option>Choisir la tags</option>
             <option value="populair">populair</option>
             <option value="spécial">spécial</option>
+            <option value="En solde">En solde</option>
             <option value="mis en avant">mis en avant</option>
           </Form.Select>
           <div className="error1">
