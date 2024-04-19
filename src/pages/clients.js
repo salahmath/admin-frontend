@@ -11,6 +11,7 @@ import { FaRegEye } from "react-icons/fa";
 
 import { MdSettingsVoice } from "react-icons/md";
 import { ImEyeBlocked } from "react-icons/im";
+import { Bloquser, Debloquser } from "../feature/auth/authslice";
 
 const { Search } = Input;
 
@@ -64,14 +65,14 @@ let conteur = 0
     };
     fetchData();
   }, [dispatch]);
-  const customerState = useSelector((state) => state.customer.customers);
+  const customerState = useSelector((state) => state?.customer?.customers);
   const data1 = []
-  
   for (let i = 0; i < customerState.length; i++) {
-    // Ajouter chaque élément avec l'index de la boucle comme clé
+  if(customerState[i].role!=="admin")
+    {
     conteur++
     data1.push({
-        key: i + 1, // Utiliser l'index de la boucle comme clé
+        key: i, // Utiliser l'index de la boucle comme clé
         lastname: customerState[i].lastname + " "+ customerState[i].Secondname,
         email: customerState[i].email,
         mobile: customerState[i].mobile,
@@ -82,15 +83,16 @@ let conteur = 0
                 <Link className="ms-3 fs-5" onClick={()=>(showModal( customerState[i]._id))}>
                     <MdDelete />
                 </Link>
-                <Link className="ms-3 fs-5" onClick={()=>(showModal( customerState[i]._id))}>
-                    <FaRegEye />
-                </Link>
-                <Link className="ms-3 fs-5" onClick={()=>(showModal( customerState[i]._id))}>
-                    <ImEyeBlocked />
-                </Link>
+                {customerState[i].isblocked ?  <FaRegEye className="ms-3 fs-5" onClick={()=>(debloquer( customerState[i]._id))}>
+                    
+                </FaRegEye> : <ImEyeBlocked className="ms-3 fs-5" onClick={()=>(bloquer( customerState[i]._id))}/>
+                   }
+               
+                
             </>
         )
     });
+  }
 }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [client, setClient] = useState("");
@@ -125,6 +127,17 @@ let conteur = 0
       console.log("Texte transcrit:", transcript); // Afficher le texte transcrit dans la console
     };
     recognition.start(); // Commencez à écouter pour la saisie vocale
+  };
+  const bloquer = (id) => {
+    dispatch(Bloquser(id)).then(() => {
+      dispatch(getUsers()); // Actualiser la liste des clients après avoir bloqué un utilisateur
+    });
+  };
+  
+  const debloquer = (id) => {
+    dispatch(Debloquser(id)).then(() => {
+      dispatch(getUsers()); // Actualiser la liste des clients après avoir débloqué un utilisateur
+    });
   };
   
   return (

@@ -5,14 +5,12 @@ import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 import { css } from "@emotion/react";
-import { Modal } from "antd";
+import { Card, Col, Input, Modal, Row } from "antd";
+import { MdSettingsVoice } from "react-icons/md";
+import QRCode from 'react-qr-code'; // Importez la bibliothèque pour générer les codes QR
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { deleteaProduct, getProduct } from "../feature/product/productSlice";
-import { Card, Col, Row,Input } from "antd";
-import QRCode from 'react-qr-code'; // Importez la bibliothèque pour générer les codes QR
-import { CiSearch } from "react-icons/ci";
-import { MdSettingsVoice } from "react-icons/md";
 
 const { Search } = Input;
 
@@ -26,6 +24,10 @@ const columns1 = [
   {
     title: "key",
     dataIndex: "key",
+  },
+  {
+    title: "Image",
+    dataIndex: "image",
   },
   {
     title: "produit",
@@ -59,18 +61,58 @@ const columns1 = [
     title: "status",
     dataIndex: "status",
   },
+ 
+
+  {
+    title: "QR Code",
+    dataIndex: "qrValue",
+    key: "qrCode",
+    render: (qrValue) => (
+      <QRCode value={qrValue || "-"}size={100} />
+    ),
+  },
   {
     title: "action",
     dataIndex: "action",
-  }, {
-    title: 'QR Code', // Renommez la colonne pour inclure les codes QR
-    dataIndex: 'qr',
-    render: (text, record) => ( // Utilisez une fonction de rendu personnalisée pour afficher les codes QR
-      <QRCode value={record.qrValue}  size={64} />
-    ),
   },
-
 ];
+
+
+const generateQRValue = (productstate) => {
+  const colorArray = productstate.color.map((item) => (item.color));
+  const images = encodeURIComponent(productstate.images[0].url);
+  const title = encodeURIComponent(productstate.title);
+  const prix = encodeURIComponent(productstate.price);
+  const quantite = encodeURIComponent(productstate.quantite);
+  const marque = encodeURIComponent(productstate.brand);
+  const img = images;
+  const description = encodeURIComponent(productstate.description);
+  const coleur = encodeURIComponent(colorArray.join(', '));
+  const tags = encodeURIComponent(productstate.tags);
+
+  const url = `https://main--produit.netlify.app/seul?title=${title}&quantite=${quantite}&Prix=${prix}&Marque=${marque}&description=${description}&coleur=${coleur}&tags=${tags}&img=${img}`;
+
+  return url;
+};
+
+
+
+/*   const generateQRValue = (product) => {
+    const colorArray = product.color.map((item) => (item.color));
+    const images = product.images.map((i) => i.url); // Utilisez la variable imagesmages
+    const values = [
+      { label: 'Title', value: product.title },
+      { label: 'Price', value: product.price },
+      { label: 'Quantity', value: product.quantite },
+      { label: 'Brand', value: product.brand },
+      { label: 'description', value: product.description },
+      { label: 'Color', value: colorArray.join(', ') },
+      { label: 'Image URL', value: images.join(', ') }, // Utilisez la variable images ici
+      { label: 'category', value: product.category },
+      { label: 'tags', value: product.tags },
+      { label: 'solde', value: product.solde },
+    ];
+   */
 const data1 = [];
 
 function Productlist() {
@@ -114,31 +156,22 @@ function Productlist() {
   const data1 = [];
   let conteur = 0;
   let conteur2 = 0;
-  const generateQRValue = (product) => {
+/*   const generateQRValue = (product) => {
     const colorArray = product.color.map((item) => (item.color));
-    const images = product.images.map((i) => i.url); // Utilisez la variable images
-    const images2 = product.images.map((i) => i.public_id); // Utilisez la variable images
+    const images = product.images.map((i) => i.url); // Utilisez la variable imagesmages
     const values = [
       { label: 'Title', value: product.title },
       { label: 'Price', value: product.price },
       { label: 'Quantity', value: product.quantite },
-      
       { label: 'Brand', value: product.brand },
       { label: 'description', value: product.description },
       { label: 'Color', value: colorArray.join(', ') },
-      { label: 'Status', value: product.quantite === 0 ? 'hors stock' : 'en stock' },
       { label: 'Image URL', value: images.join(', ') }, // Utilisez la variable images ici
-      { label: 'Image id', value: images2.join(', ') }, // Utilisez la variable images ici
       { label: 'category', value: product.category },
       { label: 'tags', value: product.tags },
+      { label: 'solde', value: product.solde },
     ];
-  
-    // Convertir le tableau d'objets en une chaîne de caractères
-    const qrString = values.map(item => `${item.value}`).join('\n');
-  
-    return qrString;
-  };
-  
+   */
   
   
   // Parcourir le tableau productstate
@@ -155,14 +188,26 @@ function Productlist() {
       prix: productstate[i].price,
       quantite: productstate[i].quantite,
       marque: productstate[i].brand,
-      color: productstate[i].color.map((item, index) => {
-        const color = getColorName(item.color);
-        return index === productstate[i].color.length - 1
-          ? color
-          : color + " / ";
-      }),
+      image: <img className="img-fluid imga" src={productstate[i].images[0].url} alt={productstate[i]._id} />,
+      color: (
+        <>
+          {productstate[i].color.map((item, index) => {
+            const color = getColorName(item.color);
+            return index === productstate[i].color.length - 1 ? (
+              color
+            ) : (
+              <React.Fragment key={index}>
+                {color}
+                <br />
+              </React.Fragment>
+            );
+          })}
+        </>
+      ),
+      
       status: status,
-      qrValue: generateQRValue(productstate[i]), // Utilisez une valeur unique (ID) comme valeur du code QR
+    // Utilisez une valeur unique (ID) comme valeur du code QR
+    qrValue: generateQRValue(productstate[i]),
 
       action: (
         <>
@@ -177,6 +222,7 @@ function Productlist() {
           </Link>
         </>
       ),
+      
     });
     if (status === "en stock") {
       conteur++; // Incrémenter le conteur uniquement si le produit est en stock

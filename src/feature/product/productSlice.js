@@ -59,6 +59,17 @@ return await ProductService.updateproduct(productData);
     }
 )
 
+export const updateaquan2 = createAsyncThunk(
+    "products/update_quan_lors_l'annulation",
+    async(Data,thunkAPI)=>{
+        try{
+return await ProductService.updatquan2(Data);
+        }catch(error){
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
 const initialState = {
     products : [],
     get_aProduct : [],
@@ -157,6 +168,23 @@ export const ProductSlice= createSlice({
                                                                     state.message = action.error;
                                                                     } )
                                 
+
+                                                                    .addCase(updateaquan2.pending ,(state)=>{
+                                                                        state.isLoading = true;
+                                                                        } )
+                                                                        .addCase(updateaquan2.fulfilled ,(state,action)=>{
+                                                                            state.isLoading = false;
+                                                                            state.isSuccess = true;
+                                                                            state.isError=false;
+                                                                            state.isupdated=false;
+                                                                            state.update_Product = action.payload;
+                                                                            } )
+                                                                            .addCase(updateaquan2.rejected ,(state,action)=>{
+                                                                                state.isLoading = false;
+                                                                                state.isSuccess = false;
+                                                                                state.isError=true;
+                                                                                state.message = action.error;
+                                                                                } )
                                 .addCase(resetstt,()=>initialState)
     },
 })

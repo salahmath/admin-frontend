@@ -36,11 +36,11 @@ function Addblog() {
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const uploadstate = useSelector((state) => state.upload.uploads);
+  const uploadstate = useSelector((state) => state?.upload?.uploads); 
   const categorystate = useSelector(
-    (state) => state.category_blog.category_blog
+    (state) => state?.category_blog?.category_blog
   );
-  const blstate = useSelector((state) => state.blog);
+  const blstate = useSelector((state) => state?.blog);
 
   const { isSuccess, isError, isLoading,blog, ismessage, blogr, blogs, ima,crblog,upblogs ,isupdated} =
     blstate;
@@ -48,8 +48,8 @@ function Addblog() {
   const img = [];
   uploadstate.forEach((i) => {
     img.push({
-      url: i.url,
-      public_id: i.public_id,
+      url: i?.url,
+      public_id: i?.public_id,
     });
   });
 
@@ -63,15 +63,15 @@ function Addblog() {
     } else {
       dispatch(exporState());
     }
-  }, [blogid]);
+  }, [blogid,dispatch]);
   //correct
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: blogs.title || "",
-      description: blogs.description || "",
+      title: blogs?.title || "",
+      description: blogs?.description || "",
 
-      category: blogs.category || "",
+      category: blogs?.category || "",
 
       image: [],
     },
@@ -254,6 +254,8 @@ function Addblog() {
             value={formik.values.category}
             aria-label="Default select example"
           >
+          <option  key="val1" value="choisie_votre_catégorie" >choisissez votre catégorie</option>
+
             {categorystate.map((i, j) => {
               return (
                 <option key={j} value={i.name}>

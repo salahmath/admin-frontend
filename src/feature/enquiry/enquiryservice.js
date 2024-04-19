@@ -21,11 +21,17 @@ return response.data;
 }
 
 const updenquirys = async(data)=>{
-    const response = await axios.put(`${url}eqr/updateenq/${data.id}`,{status : data.status},header)
+    const response = await axios.put(`${url}eqr/updateenq/${data.a}`,{status : data.b},header)
 return response.data;
+
 }
 
+const essage = async(data)=>{
+    const response = await axios.put(`${url}eqr/response/${data.a}`,{response:data.b},header)
+return response.data;
+
+}
 const enquiryservice = {
-    getAllenquirys,delenquirys,getenquirys,updenquirys
+    getAllenquirys,delenquirys,getenquirys,updenquirys,essage
 };
 export default enquiryservice

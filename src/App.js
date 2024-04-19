@@ -31,6 +31,8 @@ import Addfournisseur from './pages/Addfournisseur'
 import Addproductqr from './pages/Addproductqr'
 import Profil from './pages/Profil'
 import InvoicePage from './pages/facure'
+import Enquiry from './pages/Enquiry'
+import Viewenq from './pages/Viewenq'
 
 function App() {
   return (
@@ -69,11 +71,13 @@ function App() {
           <Route path='blog-category/:id' element={<Addblogcategory/>}/>
           <Route path='customers' element={<Client/>}/>
           <Route path='order' element={<Orderlist/>}/>
-          <Route path='vieworder/:id' element={<Vieworder/>}/>
+          <Route path='vieworder/:id/:id' element={<Vieworder/>}/>
           <Route path='profil/:id' element={<Profil/>}/>
           <Route path='facture' element={<InvoicePage/>}/>
+          <Route path='Enquiry' element={<Enquiry/>}/>
           <Route path='add-product-qr' element={<Addproductqr/>}/>
           <Route path='add-fournisseur/:id' element={<Addfournisseur/>}/>
+          <Route path='viewenq/:id' element={<Viewenq/>}/>
           
 
         

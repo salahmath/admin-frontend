@@ -29,7 +29,6 @@ import {
   updateaProduct,
 } from "../feature/product/productSlice";
 function Addproduct() {
-  
   let userSchema = object({
     title: string().required("il faut ecriver votre title"),
     description: string().required("il faut ecriver votre description"),
@@ -39,6 +38,7 @@ function Addproduct() {
     color: array().required("il faut ecriver votre color"),
     quantite: number().required("il faut ecriver votre quantite"),
     tags: string().required("il faut ecriver votre quantite"),
+    solde: number(),
     images: array().required("il faut ecriver votre img"),
   });
 
@@ -74,12 +74,14 @@ function Addproduct() {
       formik.values.color = get_aProduct.color;
       formik.values.quantite = get_aProduct.quantite;
       formik.values.tags = get_aProduct.tags;
+      formik.values.solde = get_aProduct.solde;
 
       //formik.values.images = get_aProduct.images;
     } else {
       dispatch(resetstt());
     }
   }, [getproductid]);
+  const [visible , setVisible]=useState(false)
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -92,6 +94,7 @@ function Addproduct() {
       color: get_aProduct.color || [], // Initialisez color comme un tableau vide
       quantite: get_aProduct.quantite || "",
       tags: get_aProduct.tags || "",
+      solde: get_aProduct.solde || "",
       images: /* get_aProduct.images ||  */ [],
     },
 
@@ -164,7 +167,10 @@ function Addproduct() {
 
     return false;
   };
-
+  useEffect(() => {
+    // Update the visibility based on formik.values.tags
+    setVisible(formik.values.tags === "En solde");
+  }, [formik.values.tags]); 
   return (
     <div className="mb-4">
       <div>
@@ -281,6 +287,7 @@ function Addproduct() {
           </Form.Select>
           <div className="error1">
             {formik.touched.tags && formik.errors.tags}
+
           </div>
           <br />
 
@@ -298,6 +305,25 @@ function Addproduct() {
             {formik.touched.color && formik.errors.color}
           </div>
           <br />
+          {visible === true ? (
+        <>
+          <Customlogin
+            type="text"
+            Label="Entrer votre titre"
+            name="solde"
+            onChange={formik.handleChange("solde")}
+            onBlur={formik.handleBlur("solde")}
+            value={formik.values.solde} // corrected prop name
+          />
+          <div className="error1">
+            {formik.touched.solde && formik.errors.solde}
+          </div>
+          <br />
+        </>
+      ) : (
+        ""
+      )}
+    
 
           <Upload
             beforeUpload={beforeUpload}

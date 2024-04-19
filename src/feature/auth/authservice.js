@@ -110,12 +110,33 @@ const Getorderbyuser = async (id) => {
     }
   };
   
+  const bloqueruser = async (id) => {
+    try {
+      const response = await axios.put(`${url}user/blockuser/${id}`,"", headerr);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
+  const debloqueruser = async (id) => {
+    try {
+      const response = await axios.put(`${url}user/deblockuser/${id}`,"", headerr);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
   
 const authservice = {
   login,
   getAllorders,
+  debloqueruser,
   getusebyid,
   getuser,
+  bloqueruser,
   orderDetails,
   orderDetailsch,
   GetAllorder,

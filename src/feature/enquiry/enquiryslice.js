@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import enquiryservice from "./enquiryservice";
+import { toast } from "react-toastify";
+
 
 export const getenquirys = createAsyncThunk(
     "enquiry/getallenquiries",
@@ -34,6 +36,18 @@ return await enquiryservice.getenquirys(data);
         }
     }
 )
+
+export const messages = createAsyncThunk(
+    "enquiry/messages",
+    async(data,thunkAPI)=>{
+        try{
+return await enquiryservice.essage(data);
+        }catch(error){
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
 
 
 export const updtenquirys = createAsyncThunk(
@@ -116,13 +130,38 @@ export const enquirySlice= createSlice({
                                                     state.isSuccess = true;
                                                     state.isError=false;
                                                     state.up_a_enquiry= action.payload;
+                                                    toast.success("L'enquête a été mise à jour avec succès.");
                                                     } )
                                                     .addCase(updtenquirys.rejected ,(state,action)=>{
                                                         state.isLoading = false;
                                                         state.isSuccess = false;
                                                         state.isError=true;
                                                         state.message = action.error;
+                                                        toast.error("Ilya un erreur ");
+
                                                         } )
+
+
+
+                                                        .addCase(messages.pending ,(state)=>{
+                                                            state.isLoading = true;
+                                                            } )
+                                                            .addCase(messages.fulfilled ,(state,action)=>{
+                                                                state.isLoading = false;
+                                                                state.isSuccess = true;
+                                                                state.isError=false;
+                                                                state.reponse= action.payload;
+                                                                toast.success("Reponse envoyer avec succès.");
+
+                                                                } )
+                                                                .addCase(messages.rejected ,(state,action)=>{
+                                                                    state.isLoading = false;
+                                                                    state.isSuccess = false;
+                                                                    state.isError=true;
+                                                                    state.message = action.error;
+                                                                    toast.error("Ilya un erreur ");
+
+                                                                    } )
     },
 })
 

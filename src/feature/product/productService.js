@@ -1,6 +1,6 @@
 import axios from "axios";
-import { url } from "../../utils/url";
 import getHeader from "../../utils/header";
+import { url } from "../../utils/url";
 
 const header = getHeader();
 const getAllproduct = async()=>{
@@ -36,11 +36,17 @@ const delproduct = async(data)=>{
 return response.data;
 }
 
+
+const updatquan2 = async(data)=>{
+    const response = await axios.put(`${url}user/updatequantite2/${data}`,"",header)
+return response.data;
+}
 const ProductService = {
     getAllproduct,
     createproduct,
     getproduct,
     updateproduct,
-    delproduct
+    delproduct,
+    updatquan2
 };
 export default ProductService

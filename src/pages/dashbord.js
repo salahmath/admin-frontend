@@ -42,15 +42,13 @@ const [datas ,setdatas]=useState([])
   
   const config = {
     data: datas,
-    color: '#ff0000', // Nouvelle couleur (par exemple, rouge)
-    
+    color: '#DAAB3A',
     xField: 'type',
     yField: 'sales',
-    
     label: {
         position: 'top',
         style: {
-            fill: "#ffffff",
+          fill:"#DAAB3A",
             opacity: 0.6,
         },
     },

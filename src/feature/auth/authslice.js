@@ -108,6 +108,21 @@ export const Udateorder= createAsyncThunk("order/udate_order", async (data,thunk
     return thunkAPI.rejectWithValue(error);
   }
 });
+
+export const Bloquser= createAsyncThunk("order/bloquer user", async (data,thunkAPI) => {
+  try {
+    return await authservice.bloqueruser(data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+export const Debloquser= createAsyncThunk("order/debloquer user", async (data,thunkAPI) => {
+  try {
+    return await authservice.debloqueruser(data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 export const logaut = createAction("reset_all");
 export const authSlice = createSlice({
   name: "auth",
@@ -273,6 +288,47 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.error;
         toast.error = ("Status udated avec erreur")
+
+      })
+
+
+
+      .addCase(Bloquser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(Bloquser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.Bloquser = action.payload;
+        toast.success("Utilisateur bloquer avec success");
+      })
+      
+      .addCase(Bloquser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+
+      })
+
+      .addCase(Debloquser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(Debloquser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.Debloquser = action.payload;  
+              toast.success("Utilisateur débloquer avec success");
+
+      })
+      
+      .addCase(Debloquser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
 
       })
       .addCase(logaut, () => initialState);

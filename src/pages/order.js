@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { Card, Col, Input, Row, Table } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { Getorders } from "../feature/auth/authslice";
 import { QRCode } from 'antd';
@@ -20,7 +20,7 @@ function Orderlist() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.auth.Getorders);
+  const orders = useSelector((state) => state?.auth?.Getorders);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +31,7 @@ function Orderlist() {
     fetchData();
   }, [dispatch]);
 
-  const handleVoiceSearch = () => {
+  const handleVoiceSearch = useCallback(() => {
     const recognition = new window.webkitSpeechRecognition();
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
@@ -39,15 +39,17 @@ function Orderlist() {
       console.log("Texte transcrit:", transcript);
     };
     recognition.start();
-  };
+  }, [setText]);
 
   const generateQRValue = (order) => {
-    const productNames = order?.orderItems?.map((item) => item?.productId?.product?.title);
-    const totalPrice = order.totalPriceAfterdiscount;
-    const createdAt = order.createdAt;
+    const productNames = order?.orderItems?.map((item) => item?.product?.title);
+    const totalPrice = order?.totalPriceAfterdiscount;
+    const createdAt = order?.createdAt;
+    const id = order?._id;
+    const status = order?.orderStatus;
+    const quantite = order?.orderItems?.map((item) => item?.quantity);
 
-    // Construire l'URL avec les valeurs des champs
-    const url = `https://say123.netlify.app/facture?products=${encodeURIComponent(productNames.join(','))}&totalPrice=${totalPrice}&createdAt=${createdAt}`;
+    const url = `https://say123.netlify.app/facture?num_de_commande=${id}&produits=${quantite +""+"+"+""+ encodeURIComponent(productNames.join(','))}&Prix_total=${totalPrice}&commander_Le=${createdAt}&status_de_commande=${status}`;
 
     return url;
   };
@@ -87,22 +89,20 @@ function Orderlist() {
   const formattedData = orders?.map((order, index) => ({
     key: index,
     name: order?.user?.lastname,
-    orderLink: `/admin/vieworder/${order?.user?._id}`,
+    orderLink: `/admin/vieworder/${order?.user?._id}/${order?._id}`,
     price: order?.totalPriceAfterdiscount,
-   status:<>
-   <select
-className="form-select form-control"
-aria-label="Default select example"
-value={order?.orderStatus}
-disabled
->
-<option value={order?.orderStatus} disabled>
-{order?.orderStatus}
-</option>
-</select>
-
-
-  </>,
+    status: (
+      <select
+        className="form-select form-control"
+        aria-label="Default select example"
+        value={order?.orderStatus}
+        disabled
+      >
+        <option value={order?.orderStatus} disabled>
+          {order?.orderStatus}
+        </option>
+      </select>
+    ),
     date: new Date(order?.createdAt).toLocaleString(),
     qrValue: generateQRValue(order),
   }));
@@ -135,7 +135,7 @@ disabled
                   title="Nombre de commandes"
                   bordered={false}
                 >
-                  <div className="text1">{orders.length}</div>
+                  <div className="text1">{orders?.length}</div>
                 </Card>
               </Col>
             </Row>

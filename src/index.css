@@ -1,3 +1,50 @@
+
+[data-theme ="dark"]{
+  background-color: #282c34 !important;
+  color: white;
+  background: #282c34 !important;
+  :where(.css-dev-only-do-not-override-1xg9z9n).ant-layout{
+    background: #282c34 !important
+  }
+  .form-control{
+    background: #282c34 !important
+  }
+  .form-select{
+    background: #282c34 !important
+  }
+  .form-select{
+    color: white !important
+  }
+  .rw-multiselect-taglist{
+    background: #282c34 !important
+  }
+  .bg-white{
+    background: #282c34 !important
+
+  }
+  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper .ant-table{
+    background: #282c34 !important;
+    color: white !important;
+
+  }
+  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper .ant-table-thead >tr>th{
+    background: #282c34 !important;
+    color: white !important;
+  }
+  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper td.ant-table-column-sort{
+    background: #282c34 !important;
+    color: white !important;
+  }
+  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper .ant-table-tbody .ant-table-row >.ant-table-cell-row-hover{
+    background:  white!important;
+    color: #282c34 !important;
+  }
+  .darkou{
+    color: white !important;
+
+  }
+}
+
 .ant-layout{
     min-height: 100vh;
   }
@@ -176,4 +223,9 @@ background-color: #D04848 !important;
 .bgb-warning {
   background-color: green !important ;
   
+}
+.imga{
+  width: 80px;
+  height: auto;
+
 }

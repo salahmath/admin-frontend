@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoIosPersonAdd } from "react-icons/io";
 import { GrVmMaintenance } from "react-icons/gr";
 import { FaLayerGroup } from "react-icons/fa";
+import { LuMessagesSquare } from "react-icons/lu";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { MdOutlineProductionQuantityLimits } from "react-icons/md";
@@ -49,6 +50,8 @@ import { reset } from "../feature/brand/brandslice";
 import { exporState } from "../feature/blob/blobSlice";
 import { resetstt } from "../feature/category-product/categorySlice";
 import { AiOutlineArrowRight } from "react-icons/ai";
+import DarkMode from "./darkmode/DarkMode";
+
 
 const { Header, Sider, Content } = Layout;
 const Mainlyout = () => {
@@ -300,7 +303,11 @@ conteur++
             </Menu.Item>
             
           </Menu.SubMenu>
+          
           </Menu.SubMenu>
+          <Menu.Item key="Enquiry" icon={<LuMessagesSquare className="fs-5" />}>
+            <span className="ant-menu-title-content">enquêtes</span>
+          </Menu.Item>
         </Menu>
       </Sider>
 
@@ -322,6 +329,7 @@ conteur++
               height: 64,
             }}
           />
+          <DarkMode/>
           <Dropdown>
             <div className="d-flex gap-3 align-items-center">
               <div className="position-relative">
@@ -349,25 +357,16 @@ conteur++
                 className="d-flex align-items-center"
                 id="dropdown-custom-components"
               >
-                <div
-                  className="text-white text-center fs-3 py-2"
-                  style={{
-                    backgroundColor: "#8E7AB5",
-                    width: "150px",
-                    padding: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  ADMIN
-                </div>
-                <div className="d-flex flex-column justify-content-center ms-2">
+                
+                 
+                  
+                
+                <div className=" d-flex flex-column justify-content-center ms-2 darkou">
                   <h5>{name}</h5>
                   <p>{email}</p>
                 </div>
               </Dropdown.Toggle>
-
+              
               <Dropdown.Menu>
                 <Dropdown.Item style={{ height: "auto", lineHeight: "20px" }}>
                   <Link to={`profil/${id}`}>
@@ -384,6 +383,7 @@ conteur++
               </Dropdown.Menu>
             </div>
           </Dropdown>
+          
         </Header>
         <Content
           style={{
