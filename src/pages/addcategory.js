@@ -40,6 +40,8 @@ const loca = location.pathname.split("/")[3]
      
       formik.resetForm();
       setTimeout(() => {
+      navigate("/admin/product-list");
+        
         dispatch(resetstt())
       }, 3000);   
       /* alert(JSON.stringify(values)); */

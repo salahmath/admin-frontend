@@ -56,7 +56,7 @@ useEffect((values)=>{
             formik.resetForm();
             dispatch(resetstt())
 
-            //navigate("/admin/color-list");
+            navigate("/admin/color-list");
         }, 3000);
     }
 });

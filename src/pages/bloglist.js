@@ -16,6 +16,19 @@ const { Search } = Input;
 
 
 function Bloglist() {
+  function RenderHTML({ htmlContent }) {
+    return (
+      <div
+        style={{
+          display: "-webkit-box",
+          overflow: "hidden",
+          WebkitBoxOrient: "vertical",
+          WebkitLineClamp: 3,
+        }}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
+    );
+  }
 
   const override = css`
   display: block;
@@ -46,6 +59,10 @@ const dispatch= useDispatch()
           dataIndex: 'title',
         },
         {
+          title: 'Numbre de vue',
+          dataIndex: 'Numbre',
+        },
+        {
           title: 'description',
           dataIndex: 'description',
         },
@@ -63,23 +80,24 @@ const dispatch= useDispatch()
       let conteur = 0
       const data1 = [
       ];
-      const blogstate = useSelector((state)=>state.blog.blog)
-      for (let i = 0; i < blogstate.length; i++) {
+      const blogstate = useSelector((state)=>state?.blog?.blog)
+      for (let i = 0; i < blogstate?.length; i++) {
         // Ajouter chaque élément avec l'index de la boucle comme clé
         conteur++
         data1.push({
             key: i + 1, // Utiliser l'index de la boucle comme clé
-            title: blogstate[i].title,
-            description: blogstate[i].description,
-            category: blogstate[i].category,
-            author: blogstate[i].author,
+            title: blogstate[i]?.title,
+            description: <RenderHTML htmlContent={blogstate[i]?.description} />,
+            category: blogstate[i]?.category,
+            Numbre: blogstate[i]?.numViews,
+            author: blogstate[i]?.author,
             //color: blogstate[i].color,
             action: (
                 <>
-                    <Link className="fs-5" to={`/admin/Add-blog/${blogstate[i]._id}`}>
+                    <Link className="fs-5" to={`/admin/Add-blog/${blogstate[i]?._id}`}>
                         <CiEdit />
                     </Link>
-                    <Link className="ms-3 fs-5" onClick={()=>showModal(blogstate[i]._id)}>
+                    <Link className="ms-3 fs-5" onClick={()=>showModal(blogstate[i]?._id)}>
                         <MdDelete />
                     </Link>
                 </>

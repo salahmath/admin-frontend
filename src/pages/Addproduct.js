@@ -5,12 +5,13 @@ import "react-quill/dist/quill.snow.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useFormik } from "formik";
-import { CloseCircleOutlined } from "@ant-design/icons";
+//import { CloseCircleOutlined } from "@ant-design/icons";
+import { IoCloseCircleOutline } from "react-icons/io5";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { Upload } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
 import { Card } from "react-bootstrap"; // Importez le composant Card depuis react-bootstrap
 import { object, string, number, array, date, InferType } from "yup";
 import { getbrands, reset } from "../feature/brand/brandslice";
@@ -39,11 +40,9 @@ function Addproduct() {
     quantite: number().required("il faut ecriver votre quantite"),
     tags: string().required("il faut ecriver votre quantite"),
     solde: number(),
-    images: array().required("il faut ecriver votre img"),
   });
 
   const Productstate = useSelector((state) => state.product);
-  const [images, setImages] = useState([]);
   const navigate = useNavigate();
   const brandstate = useSelector((state) => state.brand.brands);
   const categorystate = useSelector((state) => state.category.category);
@@ -57,6 +56,7 @@ function Addproduct() {
     products,
     ismessage,
     get_aProduct,
+    Image,
     isupdated,
   } = Productstate;
 
@@ -65,7 +65,6 @@ function Addproduct() {
   useEffect(() => {
     if (getproductid !== undefined) {
       dispatch(getaProduct(getproductid));
-      //ici en stopp et tout en marche saus 3== 4
       formik.values.title = get_aProduct.title;
       formik.values.description = get_aProduct.description;
       formik.values.price = get_aProduct.price;
@@ -76,7 +75,6 @@ function Addproduct() {
       formik.values.tags = get_aProduct.tags;
       formik.values.solde = get_aProduct.solde;
 
-      //formik.values.images = get_aProduct.images;
     } else {
       dispatch(resetstt());
     }
@@ -95,27 +93,76 @@ function Addproduct() {
       quantite: get_aProduct.quantite || "",
       tags: get_aProduct.tags || "",
       solde: get_aProduct.solde || "",
-      images: /* get_aProduct.images ||  */ [],
+      images:  [],
     },
 
     validationSchema: userSchema,
     onSubmit: (values) => {
-        if (getproductid !== undefined) {
+           if (getproductid !== undefined) {
         const data = { id: getproductid, data: values };
+        
         dispatch(updateaProduct(data));
       } else {
         dispatch(createProduct(values));
-      }  
-      alert(JSON.stringify(values));
+      }
       formik.resetForm();
       setTimeout(() => {
         dispatch(resetstt());
         navigate("/admin/product-list");
-      }, 3000);
+
+      }, 3000); 
+      alert(JSON.stringify(values));
       
     },
   });
 
+  const [valeurimage, setValeurimage] = useState([]);
+  
+  useEffect(() => {
+    const img = [];
+    if (Image?.length > 0) {
+      Image?.forEach((i) => {
+        img.push({
+          url: i?.url,
+          public_id: i?.public_id,
+        });
+      });
+    } else {
+      uploadstate?.forEach((i) => {
+        img.push({
+          url: i?.url,
+          public_id: i?.public_id,
+        });
+      });
+    }
+    formik.setFieldValue("images", img);
+    setValeurimage(img);
+  }, [Image, uploadstate]);
+  useEffect(() => {
+    dispatch(getbrands());
+    dispatch(getcategories());
+    dispatch(getcoleur());
+  }, [dispatch]);
+  const colors = colorstate.map((color) => ({
+    _id: color._id,
+    color: color.name,
+  }));
+
+  const beforeUpload = (file, fileList) => {
+    const expectedFiles = 4; // Nombre d'images attendues
+    if (fileList?.length !== expectedFiles) {
+      toast.error('Veuillez choisir exactement 4 images');
+      return false;
+    }
+    dispatch(uploads(fileList));
+    formik.setFieldValue("images", fileList);
+    return false;
+  };
+  
+  useEffect(() => {
+    // Update the visibility based on formik.values.tags
+    setVisible(formik.values.tags === "En solde");
+  }, [formik.values.tags]); 
   useEffect(() => {
     if (isSuccess && products && ismessage) {
       toast.success("La nouvelle produit a été ajoutée avec succès.");
@@ -134,43 +181,6 @@ function Addproduct() {
     }
   }, [isSuccess, isError, isLoading, isupdated, get_aProduct]);
 
-  const img = [];
-  uploadstate.forEach((i) => {
-    img.push({
-      url: i.url,
-      public_id: i.public_id,
-    });
-  });
-  useEffect(() => {
-    dispatch(getbrands());
-    dispatch(getcategories());
-    dispatch(getcoleur());
-  }, [dispatch]);
-  useEffect(() => {
-    formik.values.images = img;
-  }, [img]);
-  const colors = colorstate.map((color) => ({
-    _id: color._id,
-    color: color.name,
-  }));
-
-  const beforeUpload = (file, fileList) => {
-    const maxFiles = 5;
-    if (fileList.length > maxFiles) {
-      console.log("Trop de fichiers sélectionnés. Limitez-vous à", maxFiles);
-      return false;
-    }
-
-    // Dispatch votre action Redux pour gérer le téléchargement des fichiers
-    dispatch(uploads(fileList));
-    formik.setFieldValue("images", fileList);
-
-    return false;
-  };
-  useEffect(() => {
-    // Update the visibility based on formik.values.tags
-    setVisible(formik.values.tags === "En solde");
-  }, [formik.values.tags]); 
   return (
     <div className="mb-4">
       <div>
@@ -238,9 +248,9 @@ function Addproduct() {
             aria-label="Default select example"
           >
             <option>Choisir la marque</option>
-            {brandstate.map((i, j) => {
+            {brandstate?.map((i, j) => {
               return (
-                <option key={j} value={i.name}>
+                <option key={j} value={i?.name}>
                   {i.name}
                 </option>
               );
@@ -259,9 +269,9 @@ function Addproduct() {
             aria-label="Default select example"
           >
             <option>Choisir la categorie</option>
-            {categorystate.map((i, j) => {
+            {categorystate?.map((i, j) => {
               return (
-                <option key={j} value={i.name}>
+                <option key={j} value={i?.name}>
                   {i.name}
                 </option>
               );
@@ -309,11 +319,11 @@ function Addproduct() {
         <>
           <Customlogin
             type="text"
-            Label="Entrer votre titre"
+            Label="Entrer le prix de solde"
             name="solde"
             onChange={formik.handleChange("solde")}
             onBlur={formik.handleBlur("solde")}
-            value={formik.values.solde} // corrected prop name
+            val={formik.values.solde} // corrected prop name
           />
           <div className="error1">
             {formik.touched.solde && formik.errors.solde}
@@ -335,16 +345,30 @@ function Addproduct() {
             }}
           >
             <div className="error1">
-              {formik.touched.images && formik.errors.images}
+              {formik?.touched?.images && formik?.errors?.images}
             </div>
             <br />
             <div className="container">
               <div className="row">
-                {uploadstate.map((item, index) => (
-                  <div key={item.public_id} className="col-md-4 mb-3">
+                {getproductid !==undefined ? (valeurimage?.map((item, index) => (
+                  <div key={item?.public_id} className="col-md-4 mb-3">
                     <Card>
-                      <Card.Img variant="top" src={item.url} />
-                      <CloseCircleOutlined
+                      <Card.Img variant="top" src={item?.url} />
+                     {/*  <CloseCircleOutlined
+                        className="delete-icon"
+                        onClick={() => dispatch(deleteimg(item.public_id))}
+                      /> */}
+                    </Card>
+                    {/* <button onClick={() => dispatch(deleteimg(item.public_id))}>
+                      Supprimer
+                    </button> */}
+                  </div>
+                ))
+                ):(uploadstate?.map((item, index) => (
+                  <div key={item?.public_id} className="col-md-4 mb-3">
+                    <Card>
+                      <Card.Img variant="top" src={item?.url} />
+                      <IoCloseCircleOutline
                         className="delete-icon"
                         onClick={() => dispatch(deleteimg(item.public_id))}
                       />
@@ -353,11 +377,13 @@ function Addproduct() {
                       Supprimer
                     </button>
                   </div>
-                ))}
+                ))
+                )
+                }
               </div>
             </div>
 
-            <Button icon={<UploadOutlined />}>Choisir des images</Button>
+            <Button >Choisir des images</Button>
           </Upload>
           <Button type="submit" variant="outline-success" className="btn1">
             {getproductid !== undefined

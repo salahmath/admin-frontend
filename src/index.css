@@ -229,3 +229,11 @@ background-color: #D04848 !important;
   height: auto;
 
 }
+.parent {
+  border-bottom: 1px solid black; /* Définit une bordure noire en bas */
+}
+body{
+
+  font-family: Roboto , sans-serif !important;
+
+}

@@ -39,9 +39,9 @@ const getAllorders = async () => {
   }
 };
 
-const getorder = async (userData) => {
+const getordersum = async (userData) => {
   try {
-    const response = await axios.get(`${url}user/getauser/${userData}`);
+    const response = await axios.get(`${url}user/getsum`);
     return response.data;
   } catch (error) {
     console.error("Failed to fetch orders:", error);
@@ -130,9 +130,21 @@ const Getorderbyuser = async (id) => {
     }
   };
   
+  const getordersnum1 = async (id) => {
+    try {
+      const response = await axios.get(`${url}user/getordersnum1`);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+  
+  
 const authservice = {
   login,
   getAllorders,
+  getordersnum1,
   debloqueruser,
   getusebyid,
   getuser,
@@ -141,6 +153,7 @@ const authservice = {
   orderDetailsch,
   GetAllorder,
   Getorderbyuser,
-  udatestatus
+  udatestatus,
+  getordersum
 };
 export default authservice;

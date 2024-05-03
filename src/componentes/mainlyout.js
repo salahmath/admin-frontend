@@ -1,62 +1,56 @@
 import React, { useEffect, useState } from "react";
-import "./mainlyout.css";
-import { MdAdminPanelSettings } from "react-icons/md";
+import { Dropdown } from "react-bootstrap";
+import { AiOutlineArrowLeft } from "react-icons/ai";
+import { CiLogout } from "react-icons/ci";
+import { FaLayerGroup, FaUserFriends, FaUsers } from "react-icons/fa";
+import { GrCatalog, GrVmMaintenance } from "react-icons/gr";
+import { IoIosPersonAdd } from "react-icons/io";
+import { LuMessagesSquare } from "react-icons/lu";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { RiProductHuntLine } from "react-icons/ri";
+import { RxColorWheel, RxDashboard } from "react-icons/rx";
+import { TbBrandAdobe, TbBrandBumble, TbCategoryPlus } from "react-icons/tb";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import Time from 'react-time';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CiLogout } from "react-icons/ci";
-import { RxDashboard, RxColorWheel } from "react-icons/rx";
-import { GrCatalog } from "react-icons/gr";
-import { RiProductHuntLine, RiOrderPlayFill } from "react-icons/ri";
-import { FaUserFriends, FaUsers } from "react-icons/fa";
-import { Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { TbBrandAdobe, TbBrandBumble } from "react-icons/tb";
-import { TbCategoryPlus } from "react-icons/tb";
-import { useDispatch, useSelector } from "react-redux";
-import { IoIosPersonAdd } from "react-icons/io";
-import { GrVmMaintenance } from "react-icons/gr";
-import { FaLayerGroup } from "react-icons/fa";
-import { LuMessagesSquare } from "react-icons/lu";
-import { AiOutlineArrowDown } from "react-icons/ai";
-import { AiOutlineArrowLeft } from "react-icons/ai";
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
-import { LuQrCode } from "react-icons/lu";
+import "./mainlyout.css";
+
+import 'react-clock/dist/Clock.css';
+import 'react-time-picker/dist/TimePicker.css';
 
 import {
-  MdColorize,
-  MdFormatListBulletedAdd,
-  MdFormatListBulleted,
   MdCategory,
-  MdOutlineFeaturedPlayList,
+  MdColorize,
+  MdFormatListBulleted,
   MdOutlineBorderColor,
+  MdOutlineFeaturedPlayList,
+  MdProductionQuantityLimits
 } from "react-icons/md";
-import { MdProductionQuantityLimits } from "react-icons/md";
 
-import { SiMicrodotblog } from "react-icons/si";
-import { DiGitPullRequest } from "react-icons/di";
-import { LiaBlogSolid } from "react-icons/lia";
-import {
-  IoIosAddCircleOutline,
-  IoMdNotificationsOutline,
-} from "react-icons/io";
 import { FaProductHunt } from "react-icons/fa6";
+import {
+  IoIosAddCircleOutline
+} from "react-icons/io";
+import { LiaBlogSolid } from "react-icons/lia";
+import { SiMicrodotblog } from "react-icons/si";
 
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Layout, Menu, Button, theme } from "antd";
+import { Button, Layout, Menu, theme } from "antd";
+import { AiOutlineArrowRight } from "react-icons/ai";
 import { Outlet, useNavigate } from "react-router-dom";
 import AnimatedText from "../anime/animetext";
-import { logOut, log_out, logaut } from "../feature/auth/authslice";
-import { reset } from "../feature/brand/brandslice";
+import { logaut } from "../feature/auth/authslice";
 import { exporState } from "../feature/blob/blobSlice";
+import { reset } from "../feature/brand/brandslice";
 import { resetstt } from "../feature/category-product/categorySlice";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import DarkMode from "./darkmode/DarkMode";
 
 
 const { Header, Sider, Content } = Layout;
 const Mainlyout = () => {
   const [userData, setUserData] = useState(null);
-
+  const [value, onChange] = useState('10:00');
   useEffect(() => {
     const storedUserData = localStorage.getItem("user");
     if (storedUserData) {
@@ -96,6 +90,8 @@ const Mainlyout = () => {
 conteur++
     }
   }
+  let now = new Date()
+  let wasDate = new Date("Thu Jul 18 2013 15:48:59 GMT+0400")
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -141,12 +137,12 @@ conteur++
           >
             <span className="ant-menu-title-content">Ajouter produit</span>
           </Menu.Item>
-          <Menu.Item
+        {/*   <Menu.Item
             key="add-product-qr"
             icon={<LuQrCode className="fs-5" />}
           >
             <span className="ant-menu-title-content">add-product-qr</span>
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item
             key="product-list"
             icon={<MdOutlineProductionQuantityLimits className="fs-5" />}
@@ -368,11 +364,7 @@ conteur++
               </Dropdown.Toggle>
               
               <Dropdown.Menu>
-                <Dropdown.Item style={{ height: "auto", lineHeight: "20px" }}>
-                  <Link to={`profil/${id}`}>
-                    <MdAdminPanelSettings /> Admin profile
-                  </Link>
-                </Dropdown.Item>
+              
 
                 <Dropdown.Item
                   onClick={handleLogout}

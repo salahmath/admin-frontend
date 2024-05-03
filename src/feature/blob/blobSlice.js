@@ -120,7 +120,10 @@ export const blogSlice = createSlice({
             state.isError=false;
             state.ismessage=true;
             state.blogs= action.payload;
-            state.ima= action.payload.image;
+            state.blogName = action.payload.title;
+        state.blogDesc = action.payload.description;
+        state.blogCategory = action.payload.category;
+        state.blogImages = action.payload.image;
 
 
         })

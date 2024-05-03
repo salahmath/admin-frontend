@@ -32,6 +32,7 @@ name: string().required("Veuillez saisir un titre."),
         const data = { id: getbrandid, databrand: values };
         dispatch(updatebrand(data))
           .then(() => {
+      navigate("/admin/brand-list");
             formik.resetForm();
             dispatch(reset());
           })
@@ -42,6 +43,7 @@ name: string().required("Veuillez saisir un titre."),
       } else {
         dispatch(creebrands(values))
           .then(() => {
+      navigate("/admin/brand-list");
             formik.resetForm();
             dispatch(reset());
           })

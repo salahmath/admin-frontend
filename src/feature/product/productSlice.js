@@ -15,7 +15,6 @@ return await ProductService.getAllproduct();
 export const createProduct = createAsyncThunk(
     "products/createproduct",
     async(productData,thunkAPI)=>{
-        ;
         try{
 return await ProductService.createproduct(productData);
         }catch(error){
@@ -126,6 +125,7 @@ export const ProductSlice= createSlice({
                                         state.isSuccess = true;
                                         state.isError=false;
                                         state.get_aProduct = action.payload;
+                                        state.Image=action.payload.images;
                                         } )
                                         .addCase(getaProduct.rejected ,(state,action)=>{
                                             state.isLoading = false;

@@ -22,6 +22,7 @@ function Addblogcategory() {
 const location = useLocation()
 const catid = location.pathname.split("/")[3]
 const blogstate = useSelector((state) => state.category_blog);
+const creeblogstate = useSelector((state) => state?.category_blog?.category);
 
   const { isSuccess, isError,ismessage, isLoading,isupdated ,category ,categoryl} = blogstate;
 
@@ -43,6 +44,7 @@ const blogstate = useSelector((state) => state.category_blog);
       }
       formik.resetForm();
       setTimeout(() => {
+      navigate("/admin/blog-category-list");
        dispatch(exportState())
       }, 3000);   
       /* alert(JSON.stringify(values)); */
@@ -80,7 +82,6 @@ useEffect(() => {
   }
 }, [isSuccess, isError, category,categoryl,isupdated]);
 
-  
   return (
     <div>
       <h3 >{catid!==undefined ?"Modifier la categorie":"Ajouter une categorie"} une categorie de blog</h3>

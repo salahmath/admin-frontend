@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 
 import { css } from "@emotion/react";
-import { Card, Col, Input, Modal, Row } from "antd";
+import { Card, Col, Input, Modal, Row ,} from "antd";
 import { MdSettingsVoice } from "react-icons/md";
 import QRCode from 'react-qr-code'; // Importez la bibliothèque pour générer les codes QR
 import { Link } from "react-router-dom";
@@ -24,10 +24,6 @@ const columns1 = [
   {
     title: "key",
     dataIndex: "key",
-  },
-  {
-    title: "Image",
-    dataIndex: "image",
   },
   {
     title: "produit",
@@ -77,24 +73,29 @@ const columns1 = [
   },
 ];
 
+const MAX_DESCRIPTION_LENGTH = 700;
 
 const generateQRValue = (productstate) => {
-  const colorArray = productstate.color.map((item) => (item.color));
-  const images = encodeURIComponent(productstate.images[0].url);
-  const title = encodeURIComponent(productstate.title);
-  const prix = encodeURIComponent(productstate.price);
-  const quantite = encodeURIComponent(productstate.quantite);
-  const marque = encodeURIComponent(productstate.brand);
+  const colorArray = productstate?.color.map((item) => item.color);
+  const images = encodeURIComponent(productstate?.images[0]?.url);
+  const title = encodeURIComponent(productstate?.title);
+  const prix = encodeURIComponent(productstate?.price);
+  const quantite = encodeURIComponent(productstate?.quantite);
+  const marque = encodeURIComponent(productstate?.brand);
   const img = images;
-  const description = encodeURIComponent(productstate.description);
   const coleur = encodeURIComponent(colorArray.join(', '));
-  const tags = encodeURIComponent(productstate.tags);
+  const tags = encodeURIComponent(productstate?.tags);
+
+  // Limiter la taille de la description et ajouter "..." si elle dépasse la limite
+  let description = encodeURIComponent(productstate?.description);
+  if (description.length > MAX_DESCRIPTION_LENGTH) {
+    description = description.substring(0, MAX_DESCRIPTION_LENGTH) + '...';
+  }
 
   const url = `https://main--produit.netlify.app/seul?title=${title}&quantite=${quantite}&Prix=${prix}&Marque=${marque}&description=${description}&coleur=${coleur}&tags=${tags}&img=${img}`;
 
   return url;
 };
-
 
 
 /*   const generateQRValue = (product) => {
@@ -188,7 +189,7 @@ function Productlist() {
       prix: productstate[i].price,
       quantite: productstate[i].quantite,
       marque: productstate[i].brand,
-      image: <img className="img-fluid imga" src={productstate[i].images[0].url} alt={productstate[i]._id} />,
+      image: <img className="img-fluid imga" src={productstate[i]?.images[0]?.url} alt={productstate[i]._id} />,
       color: (
         <>
           {productstate[i].color.map((item, index) => {

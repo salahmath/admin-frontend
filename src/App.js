@@ -72,10 +72,10 @@ function App() {
           <Route path='customers' element={<Client/>}/>
           <Route path='order' element={<Orderlist/>}/>
           <Route path='vieworder/:id/:id' element={<Vieworder/>}/>
-          <Route path='profil/:id' element={<Profil/>}/>
+         {/*  <Route path='profil/:id' element={<Profil/>}/> */}
           <Route path='facture' element={<InvoicePage/>}/>
           <Route path='Enquiry' element={<Enquiry/>}/>
-          <Route path='add-product-qr' element={<Addproductqr/>}/>
+          {/* <Route path='add-product-qr' element={<Addproductqr/>}/> */}
           <Route path='add-fournisseur/:id' element={<Addfournisseur/>}/>
           <Route path='viewenq/:id' element={<Viewenq/>}/>
           

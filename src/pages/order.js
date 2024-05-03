@@ -2,12 +2,15 @@ import { css } from "@emotion/react";
 import { Card, Col, Input, Row, Table } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
+import { FcPlus } from "react-icons/fc";
+
 import { Getorders } from "../feature/auth/authslice";
 import { QRCode } from 'antd';
 import { MdSettingsVoice } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import { Tag } from "antd";
+import { MdPayment } from "react-icons/md";
 const { Search } = Input;
 
 const override = css`
@@ -56,41 +59,79 @@ function Orderlist() {
 
   const columns = [
     {
-      title: "Nom",
+      title: "Nom de client",
       dataIndex: "name",
     },
     {
-      title: "Commande",
-      dataIndex: "orderLink",
-      render: (orderLink) => <Link to={orderLink}>Voir la commande</Link>,
+      title: "Adresse",
+      dataIndex: "Adresse",
     },
+   
     {
-      title: "Prix",
+      title: "Prix de commande",
       dataIndex: "price",
     },
     {
-      title: "Date",
+      title: "Date de commande",
       dataIndex: "date",
     },
     {
-      title: "status",
+      title: "status de commande",
       dataIndex: "status",
+    }
+    ,{
+      title: "Statut de paiement",
+      dataIndex: "paymentStatus",
+      key: "paymentStatus",
+      render: (_, record) => (
+        <Tag color={record.paymentStatus === "1" ? "green" : "volcano"}>
+          <MdPayment/>
+        </Tag>
+      ),
+    },{
+      title: "Méthode de paiement",
+      dataIndex: "méthode", // Utilisez "méthode" avec un accent aigu
+      key: "méthode",
+      render: (_, { méthode }) => { // Utilisez "méthode" avec un accent aigu
+        let color; // Couleur par défaut
+        switch (méthode.toUpperCase()) { // Utilisez "méthode" avec un accent aigu
+          case "WALLET":
+            color = "grey";
+            break;
+          case "BANK_CARD":
+            color = "green";
+            break;
+          case "E-DINAR":
+            color = "blue";
+            break;
+          case "NON":
+            color = "volcano";
+            break;
+          default:
+            color = "default";
+        }
+        return (
+          <Tag color={color} key={méthode}>
+            {méthode.toUpperCase()}
+          </Tag>
+        );
+      },
     },
     {
-      title: "QR Code",
-      dataIndex: "qrValue",
-      key: "qrCode",
-      render: (qrValue) => (
-        <QRCode value={qrValue || "-"} />
-      ),
-    },
+      title: "Plus de details",
+      dataIndex: "orderLink",
+      render: (orderLink) => <Link to={orderLink}><FcPlus/></Link>,
+    }
+    
   ];
 
   const formattedData = orders?.map((order, index) => ({
     key: index,
     name: order?.user?.lastname,
-    orderLink: `/admin/vieworder/${order?.user?._id}/${order?._id}`,
-    price: order?.totalPriceAfterdiscount,
+   Adresse: order?.Shippinginfo?.Address+","+order?.Shippinginfo?.Other,
+    price: order?.totalPriceAfterdiscount+"DT",
+    paymentStatus:order?.type,
+    méthode:order?.method,
     status: (
       <select
         className="form-select form-control"
@@ -104,6 +145,7 @@ function Orderlist() {
       </select>
     ),
     date: new Date(order?.createdAt).toLocaleString(),
+    orderLink: `/admin/vieworder/${order?.user?._id}/${order?._id}`,
     qrValue: generateQRValue(order),
   }));
 

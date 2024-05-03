@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { object, string, number } from "yup";
 import { crefournisseur, exportesState, getefournisseur, updfournisseur } from "../feature/list-fournisseur/fournisseurSlice";
 import Customlogin from "../componentes/Coustomlogin";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { exporState } from "../feature/blob/blobSlice";
 
@@ -16,7 +16,10 @@ function Addfournisseur() {
     lastname: string().required("Veuillez saisir un titre."),
     Secondname: string().required("Veuillez saisir une description."),
     email: string().email("Veuillez saisir une adresse email valide.").required("Veuillez saisir une adresse email."),
-    mobile: number().required("Veuillez ajouter un numéro de mobile."),
+    mobile: number().required("Veuillez ajouter un numéro de mobile.").test('len', 'Must be exactly 8 characters', val => val.toString().length === 8)
+
+
+  
   });
 
   const dispatch = useDispatch();
@@ -37,6 +40,8 @@ function Addfournisseur() {
     }
       },[foid])
   // Initialize formik hook
+  const navigate = useNavigate();
+
   const formik = useFormik({
     enableReinitialize:true,
     initialValues: {
@@ -55,6 +60,7 @@ function Addfournisseur() {
         dispatch(crefournisseur(values));
       }
       setTimeout(() => {
+      navigate("/admin/list-fournisseur");
         formik.resetForm();
         dispatch(exportesState());
       }, 3000);

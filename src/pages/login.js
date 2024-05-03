@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { object, string, number, date, InferType } from 'yup';
 import { login } from '../feature/auth/authslice';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 const  Login=()=>{
   const Dispatch = useDispatch();
   const navigate  = useNavigate();
@@ -14,8 +15,6 @@ const  Login=()=>{
   useEffect(()=>{
 if(user!=="null" && isSuccess ){
   navigate("admin")
-}else{
-  navigate("")
 }
   },[user,isLogin , isSuccess , isError , message,navigate])
   let userSchema = object({
@@ -62,9 +61,7 @@ if(user!=="null" && isSuccess ){
          <div>{formik.errors.password}</div>
        ) : null}
             </div>
-            <div className='mb-3 text-end'><Link   to ='/forgot-password' >
-            oublier votre mot de passe?</Link>
-            </div>
+           
             <button 
              className='border-0 px-3 py-2 text-white fw-bold w-100 ' style={{background:"#494b18"}} type='submit'>
               connecter

@@ -109,6 +109,7 @@ export const Udateorder= createAsyncThunk("order/udate_order", async (data,thunk
   }
 });
 
+
 export const Bloquser= createAsyncThunk("order/bloquer user", async (data,thunkAPI) => {
   try {
     return await authservice.bloqueruser(data);
@@ -123,6 +124,24 @@ export const Debloquser= createAsyncThunk("order/debloquer user", async (data,th
     return thunkAPI.rejectWithValue(error);
   }
 });
+
+export const Getordersum= createAsyncThunk("order/sum order", async (data,thunkAPI) => {
+  try {
+    return await authservice.getordersum();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const Getordersnum1= createAsyncThunk("order/Getordersnum1", async (data,thunkAPI) => {
+  try {
+    return await authservice.getordersnum1();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+
 export const logaut = createAction("reset_all");
 export const authSlice = createSlice({
   name: "auth",
@@ -137,12 +156,14 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.user = action.payload;
+        toast.info("Bienvenue")
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.user = null;
+
       })
       .addCase(getordrs.pending, (state) => {
         state.isLoading = true;
@@ -331,6 +352,47 @@ export const authSlice = createSlice({
         state.message = action.error;
 
       })
+
+      
+      .addCase(Getordersum.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(Getordersum.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.Getordersum = action.payload;
+
+      })
+      
+      .addCase(Getordersum.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+
+      })
+
+      .addCase(Getordersnum1.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(Getordersnum1.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.Getordersnum1 = action.payload;
+
+      })
+      
+      .addCase(Getordersnum1.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.isError = true;
+        state.message = action.error;
+
+      })
+
+      
       .addCase(logaut, () => initialState);
   },
 });

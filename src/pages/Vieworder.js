@@ -64,8 +64,8 @@ function Vieworder() {
 
   useEffect(() => {
     if (orderstate) {
-      const formattedData = orderstate.map((order) => {
-        const dateStrFromAPI = order.createdAt;
+      const formattedData = orderstate?.map((order) => {
+        const dateStrFromAPI = order?.createdAt;
         const dateObject = new Date(dateStrFromAPI);
         const formattedDate = `${dateObject.getFullYear()}-${padNumber(
           dateObject.getMonth() + 1
@@ -76,18 +76,18 @@ function Vieworder() {
         )}`;
   
         return {
-          name: order.user.lastname,
-          prix: order.totalPriceAfterdiscount + "DT",
+          name: order?.user?.lastname,
+          prix: order?.totalPriceAfterdiscount + "DT",
           date: formattedDate,
-          product: order.orderItems
-            .map((i) => i.product.title)
+          product: order?.orderItems
+            .map((i) => i?.product?.title)
             .join(", "),
           action: (
             <select
               className="form-select form-control"
               aria-label="Default select example"
               onChange={(e) => Udateorders(getid, e.target.value)}
-              
+              defaultValue={order?.orderStatus}
             >
               <option value="En attente">En attente</option>
               <option value="En cours de traitement">
@@ -107,11 +107,23 @@ function Vieworder() {
     return number.toString().padStart(2, "0");
   }
 
+  const [previousOrderState, setPreviousOrderState] = useState(null); // État pour stocker l'état précédent de orderstate
+
   useEffect(() => {
-    if (orderstate?.map((i)=>i.orderStatus === "Annulé")) {
-      dispatch(updateaquan2(orderstate?.map((i)=>i._id)));
+    // Vérifiez s'il y a un changement significatif dans orderstate
+    if (previousOrderState !== null && JSON.stringify(previousOrderState) !== JSON.stringify(orderstate)) {
+      // Vérifiez si au moins un élément dans orderstate a un orderStatus égal à "Annulé"
+      if (orderstate.some((i) => i.orderStatus === "Annulé")) {
+        // Effectuez votre action de mise à jour
+        dispatch(updateaquan2(orderstate.map((i) => i._id)));
+        console.log((orderstate.some((i) => i.orderStatus )));
+      }
     }
-  }, [dispatch,orderstate]);
+
+    // Mettez à jour l'état précédent avec l'état actuel
+    setPreviousOrderState(orderstate);
+  }, [dispatch, orderstate, previousOrderState]);
+
   return (
     <div>
       <div className="mt-4">

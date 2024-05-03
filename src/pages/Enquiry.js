@@ -6,8 +6,10 @@ import { Getorders } from "../feature/auth/authslice";
 import { QRCode } from 'antd';
 import { MdSettingsVoice } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+//import { ""from 'antd';
 import { Link } from "react-router-dom";
 import { getenquirys } from "../feature/enquiry/enquiryslice";
+import { BiExitFullscreen } from "react-icons/bi";
 
 const { Search } = Input;
 
@@ -56,9 +58,14 @@ function Enquiry() {
       title: "Email",
       dataIndex: "price",
     },
+    
     {
       title: "Message",
       dataIndex: "date",
+    },
+    {
+      title: "Reponse",
+      dataIndex: "reponse",
     },
     {
       title: "status",
@@ -68,10 +75,23 @@ function Enquiry() {
   let a = 0;
   let b = 0;
   let c = 0;
-  
+  function RenderHTML({ htmlContent }) {
+    return (
+      <div
+        style={{
+          display: "-webkit-box",
+          overflow: "hidden",
+          WebkitBoxOrient: "vertical",
+          WebkitLineClamp: 3,
+        }}
+        dangerouslySetInnerHTML={{ __html: htmlContent }}
+      />
+    );
+  }
+
   const formattedData = enqstate?.map((enq, index) => {
     // Incrémenter a, b ou c selon le statut de l'enquête
-    if (enq?.status === "En attente") {
+    if (enq?.status === "En attente" || enq?.status === "en attente" ) {
       a++;
     } else if (enq?.status === "voir") {
       b++;
@@ -85,6 +105,7 @@ function Enquiry() {
       orderLink: `/admin/viewenq/${enq?._id}`,
       price: enq?.email,
       date: enq?.comment,
+      reponse: enq?.reponse ?<RenderHTML htmlContent={enq?.reponse} /> :  < BiExitFullscreen  style={{ color: 'red' }} />,
       status: (
         <select
           className="form-select form-control"

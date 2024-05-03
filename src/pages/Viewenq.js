@@ -71,8 +71,8 @@ function Viewenq() {
           reponse: (
             <ReactQuill
               name="response"
-              
               onChange={handleChange}
+              defaultValue={enqstate?.reponse}
             />
           ),
           btn: (
@@ -91,6 +91,7 @@ function Viewenq() {
                 className="form-select form-control"
                 aria-label="Default select example"
                 onChange={(e) => Updatestatus(getid, e.target.value)}
+                defaultValue={enqstate?.status}
               >
                 <option value="En attente">En attente</option>
                 <option value="voir">voir</option>
@@ -105,7 +106,6 @@ function Viewenq() {
   const handleChange = (content) => {
     setmes(content);
   };
-  console.log(mes);
   return (
     <div>
       <div className="mt-4">
