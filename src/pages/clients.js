@@ -16,7 +16,7 @@ import { Bloquser, Debloquser } from "../feature/auth/authslice";
 const { Search } = Input;
 
 const override = css`
-  display: block;
+  display: block; 
   margin: 10 auto;
   border-color: red;
 `;
