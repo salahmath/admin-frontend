@@ -1,4 +1,3 @@
-
 [data-theme ="dark"]{
   background-color: #282c34 !important;
   color: white;
@@ -113,8 +112,6 @@ main{
 }
 
 .ant-layout-sider-children{
-
-
   background-color : #B5C0D0 !important;
 }
 
@@ -199,8 +196,8 @@ background-color: #D04848 !important;
       font-size: 24px; 
     }
     
-    
-   :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu .ant-menu-submenu-disabled {
+
+    :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu .ant-menu-item-disabled,:where(.css-dev-only-do-not-override-1r287do).ant-menu-dark, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu .ant-menu-submenu-disabled {
     background: #E178C5 !important;
    }
 
