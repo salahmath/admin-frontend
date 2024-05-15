@@ -29,7 +29,7 @@ import {
   getaProduct,
   updateaProduct,
 } from "../feature/product/productSlice";
-import { QrReader } from 'react-qr-reader';
+import { QrCode } from 'antd';
 
 
 function Addproductqr() {
@@ -127,117 +127,7 @@ function Addproductqr() {
   
   return (
     <div>
-      {!productDetected ? (
-      <div className="qr">
-        <h3>Scanner un produit</h3>
-        <QrReader
-          delay={300}
-          onError={(error) => console.log(error)}
-          onScan={handleResult}
-          onResult={handleResult}
-          style={{
-            width: "50px",
-            height: "50px",
-            position: "relative",
-            margin: "auto",
-          }}
-        />
-      </div>
-    ) :<> {/* Formulaire pour ajouter un produit */}
-    {setProductDetected(true)}
-      <form onSubmit={formik.handleSubmit}>
-        <Customlogin
-          type="text"
-          Label="Titre"
-          name="title"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.title}
-          error={formik.touched.title && formik.errors.title}
-        />
-        <Customlogin
-          type="text"
-          Label="Prix"
-          name="price"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.price}
-          error={formik.touched.price && formik.errors.price}
-        />
-        <Customlogin
-          type="text"
-          Label="Quantité"
-          name="quantite"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.quantite}
-          error={formik.touched.quantite && formik.errors.quantite}
-        />
-        <Customlogin
-          type="text"
-          Label="Marque"
-          name="brand"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.brand}
-          error={formik.touched.brand && formik.errors.brand}
-        />
-        {/* Vous devez définir une logique pour sélectionner plusieurs couleurs */}
-        <Customlogin
-          type="text"
-          Label="Couleur"
-          name="color"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.color}
-          error={formik.touched.color && formik.errors.color}
-        />
-
-<Customlogin
-          type="text"
-          Label="description"
-          name="description"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.description}
-          error={formik.touched.description && formik.errors.description}
-        />
-        <br/>
-       < Customlogin
-          type="text"
-          Label="category"
-          name="category"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.category}
-          error={formik.touched.category && formik.errors.category}
-        />
-        <br/>
-
-        < Customlogin
-          type="text"
-          Label="tags"
-          name="tags"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          val={formik.values.tags}
-          error={formik.touched.tags && formik.errors.tags}
-        />
-        <br/>
-{formik.values.images.map((image, index) => (
-  <>
-  <img key={index} src={image.url} alt={`Image ${index}`} />
-  <label>{image.public_id}</label>
-  </>
-))}
-<br/>
-
-        <Button type="submit" variant="outline-success" className="btn1">
-          Ajouter un produit
-        </Button>
-      </form></> }
-      
-
+ 
      
     </div>
   );

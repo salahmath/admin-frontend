@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { css } from "@emotion/react";
 import { Card, Col, Input, Modal, Row ,} from "antd";
 import { MdSettingsVoice } from "react-icons/md";
-import QRCode from 'react-qr-code'; // Importez la bibliothèque pour générer les codes QR
+import QRCode from 'qrcode.react'; // Importez la bibliothèque pour générer les codes QR
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { deleteaProduct, getProduct } from "../feature/product/productSlice";
