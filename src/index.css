@@ -1,8 +1,9 @@
+
 [data-theme ="dark"]{
   background-color: #282c34 !important;
   color: white;
   background: #282c34 !important;
-  :where(.css-dev-only-do-not-override-1xg9z9n).ant-layout{
+  :where(.css-dev-only-do-not-override-1r287do).ant-layout{
     background: #282c34 !important
   }
   .form-control{
@@ -21,20 +22,20 @@
     background: #282c34 !important
 
   }
-  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper .ant-table{
+  :where(.css-dev-only-do-not-override-1r287do).ant-table-wrapper .ant-table{
     background: #282c34 !important;
     color: white !important;
 
   }
-  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper .ant-table-thead >tr>th{
+  :where(.css-dev-only-do-not-override-1r287do).ant-table-wrapper .ant-table-thead >tr>th{
     background: #282c34 !important;
     color: white !important;
   }
-  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper td.ant-table-column-sort{
+  :where(.css-dev-only-do-not-override-1r287do).ant-table-wrapper td.ant-table-column-sort{
     background: #282c34 !important;
     color: white !important;
   }
-  :where(.css-dev-only-do-not-override-1xg9z9n).ant-table-wrapper .ant-table-tbody .ant-table-row >.ant-table-cell-row-hover{
+  :where(.css-dev-only-do-not-override-1r287do).ant-table-wrapper .ant-table-tbody .ant-table-row >.ant-table-cell-row-hover{
     background:  white!important;
     color: #282c34 !important;
   }
@@ -112,32 +113,34 @@ main{
 }
 
 .ant-layout-sider-children{
+
+
   background-color : #B5C0D0 !important;
 }
 
 
-
-:where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu{
+:where(.css-dev-only-do-not-override-1r287do).ant-menu-dark, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu{
   background: #CCD3CA !important;
 }
 
-:where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu.ant-menu-inline .ant-menu-sub.ant-menu-inline{
+:where(.css-dev-only-do-not-override-1r287do).ant-menu-dark.ant-menu-inline .ant-menu-sub.ant-menu-inline, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu.ant-menu-inline .ant-menu-sub.ant-menu-inline{
 
   background: #F5E8DD !important;
 }
 
-.menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+.menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-item-selected {
   background-color: #EED3D9 !important;
 }
-:where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+
+  :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-item-selected{
   color: #8E7AB5 !important;
 }
 
-:where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-item, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-item, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-submenu-title, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-submenu-title {
+:where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-item, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-item, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-submenu-title, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-submenu-title {
   color: rgba(0, 0, 0, 0.65);
 }
 
-:where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-item-selected {
+:where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-item-selected, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-item-selected {
   background-color: #EED3D9;
 }
 
@@ -156,7 +159,7 @@ text-decoration: #040404;
 
 }
  
-:where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-submenu-disabled, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-submenu-disabled {
+:where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-submenu-disabled, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-submenu-disabled {
   color: #8E7AB5 !important;
 }
 .crd2{
@@ -196,12 +199,12 @@ background-color: #D04848 !important;
       font-size: 24px; 
     }
     
-
-    :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu .ant-menu-item-disabled,:where(.css-dev-only-do-not-override-1r287do).ant-menu-dark, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu .ant-menu-submenu-disabled {
+    
+   :where(.css-dev-only-do-not-override-1r287do).ant-menu .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1r287do).ant-menu .ant-menu-submenu-disabled {
     background: #E178C5 !important;
    }
 
-   :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark .ant-menu-submenu-disabled, :where(.css-dev-only-do-not-override-1xg9z9n).ant-menu-dark>.ant-menu .ant-menu-submenu-disabled{
+   :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-item-disabled, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark .ant-menu-submenu-disabled, :where(.css-dev-only-do-not-override-1r287do).ant-menu-dark>.ant-menu .ant-menu-submenu-disabled{
     color: #040404 !important;
    }
 
