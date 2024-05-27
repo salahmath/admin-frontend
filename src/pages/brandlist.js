@@ -11,6 +11,7 @@ import { Card, Col, Row } from "antd";
 import { MdSettingsVoice } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import { Input } from 'antd';
+import { ToastContainer } from 'react-toastify';
 const { Search } = Input;
 
 const override = css`
@@ -40,7 +41,7 @@ function Brandlist() {
 
   const columns1 = [
     {
-      title: 'Name',
+      title: 'Nom',
       dataIndex: 'name',
     },
     {
@@ -109,8 +110,19 @@ const handleVoiceSearch = () => {
 
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="mt-4">
-        <h3 className="mb-4">Liste de marque</h3>
+        <h3 className="mb-4">Liste de marques</h3>
        
   
         {loading ? (
@@ -121,7 +133,7 @@ const handleVoiceSearch = () => {
           <>
             <Row className='rowed' gutter={16}>
               <Col span={8}>
-                <Card className="crd100" title="Nombre de marque" bordered={false}>
+                <Card className="crd100" title="Nombre de marques" bordered={false}>
                   <div className="text1" >{counter}</div>  
                 </Card>
               </Col>

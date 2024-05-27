@@ -9,7 +9,7 @@ import { useFormik } from "formik";
 import { IoCloseCircleOutline } from "react-icons/io5";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 import { Upload } from "antd";
 import { Card } from "react-bootstrap"; // Importez le composant Card depuis react-bootstrap
@@ -30,17 +30,24 @@ import {
   updateaProduct,
 } from "../feature/product/productSlice";
 function Addproduct() {
-  let userSchema = object({
-    title: string().required("il faut ecriver votre title"),
-    description: string().required("il faut ecriver votre description"),
-    price: number().required("il faut ecriver votre prix"),
-    category: string().required("il faut ecriver category"),
-    brand: string().required("il faut ecriver votre brandx"),
-    color: array().required("il faut ecriver votre color"),
-    quantite: number().required("il faut ecriver votre quantite"),
-    tags: string().required("il faut ecriver votre quantite"),
+  const userSchema = object({
+    title: string().required("Il faut écrire votre titre"),
+    description: string().required("Il faut écrire votre description"),
+    price: number()
+      .required("Il faut écrire votre prix")
+      .min(1, "Le prix doit être au moins 1"),
+    category: string().required("Il faut écrire la catégorie"),
+    brand: string().required("Il faut écrire votre marque"),
+    color: array().required("Il faut écrire votre couleur"),
+    quantite: number()
+      .required("Il faut écrire votre quantité")
+      .min(1, "La quantité doit être au moins 1"),
+    tags: string().required("Il faut écrire vos tags"),
     solde: number(),
   });
+  
+  /* 
+ */
 
   const Productstate = useSelector((state) => state.product);
   const navigate = useNavigate();
@@ -80,6 +87,7 @@ function Addproduct() {
     }
   }, [getproductid]);
   const [visible , setVisible]=useState(false)
+  const img = [];
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -89,37 +97,55 @@ function Addproduct() {
       price: get_aProduct.price || "",
       category: get_aProduct.category || "",
       brand: get_aProduct.brand || "",
-      color: get_aProduct.color || [], // Initialisez color comme un tableau vide
+      color: get_aProduct.color || [],
       quantite: get_aProduct.quantite || "",
       tags: get_aProduct.tags || "",
       solde: get_aProduct.solde || "",
       images:  [],
     },
-
     validationSchema: userSchema,
     onSubmit: (values) => {
-           if (getproductid !== undefined) {
+      if (getproductid !== undefined) {
         const data = { id: getproductid, data: values };
-        
-        dispatch(updateaProduct(data));
+        if (formik?.values?.color?.length === 0) {
+          toast.error('Il faut choisir une couleur');
+          return false;
+        } else if (valeurimage?.length === 0) {
+          toast.error('Désoler, ilya un erreur');
+          return false;
+        } else {
+          dispatch(updateaProduct(data)).then(() => {
+            setTimeout(() => {
+              dispatch(resetstt());
+              navigate("/admin/product-list");
+            }, 1000);
+          });
+        }
       } else {
-        dispatch(createProduct(values));
+        if (formik.values.color.length === 0) {
+          toast.error('Il faut choisir une couleur');
+          return false;
+        } else if (valeurimage.length === 0) {
+          toast.error('Il faut choisir 4 images');
+          return false;
+
+        } else {
+          dispatch(createProduct(values)).then(() => {
+            setTimeout(() => {
+              dispatch(resetstt());
+              navigate("/admin/product-list");
+            }, 1000);
+          });
+        }
       }
+    
       formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetstt());
-        navigate("/admin/product-list");
-
-      }, 3000); 
-      alert(JSON.stringify(values));
-      
+      // alert(JSON.stringify(values));
     },
+    
   });
-
   const [valeurimage, setValeurimage] = useState([]);
-  
   useEffect(() => {
-    const img = [];
     if (Image?.length > 0) {
       Image?.forEach((i) => {
         img.push({
@@ -163,14 +189,6 @@ function Addproduct() {
     // Update the visibility based on formik.values.tags
     setVisible(formik.values.tags === "En solde");
   }, [formik.values.tags]); 
-  useEffect(() => {
-    if (isSuccess && products && ismessage) {
-      toast.success("La nouvelle produit a été ajoutée avec succès.");
-    }
-    if (isError) {
-      toast.error("Erreur lors de l'ajout du produit");
-    }
-  }, [isSuccess, isError, isLoading, ismessage]);
 
   useEffect(() => {
     if (isSuccess && isupdated && get_aProduct) {
@@ -180,9 +198,19 @@ function Addproduct() {
       toast.error("Erreur lors de l'ajout du produit");
     }
   }, [isSuccess, isError, isLoading, isupdated, get_aProduct]);
-
   return (
     <div className="mb-4">
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div>
         <h3>
           {" "}
@@ -194,7 +222,7 @@ function Addproduct() {
         <form onSubmit={formik.handleSubmit}>
           <Customlogin
             type="text"
-            Label="Entrer votre titre"
+            Label="Entrer le titre"
             name="title"
             onChange={formik.handleChange("title")}
             onblur={formik.handleBlur("title")}
@@ -209,6 +237,7 @@ function Addproduct() {
           <ReactQuill
             theme="snow"
             name="description"
+            placeholder="Entrer la description"
             onChange={formik.handleChange("description")}
             value={formik.values.description}
           />
@@ -230,7 +259,7 @@ function Addproduct() {
           <br />
           <Customlogin
             type="Number"
-            Label="Entrer le quantiter"
+            Label="Entrer la quantiter"
             name="quantite"
             onChange={formik.handleChange("quantite")}
             onblur={formik.handleBlur("quantite")}

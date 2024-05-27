@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getenquirys } from "../feature/enquiry/enquiryslice";
 import { BiExitFullscreen } from "react-icons/bi";
+import { ToastContainer } from "react-toastify";
 
 const { Search } = Input;
 
@@ -49,10 +50,9 @@ function Enquiry() {
       dataIndex: "name",
     },
     {
-      title: "repondu sur message",
+      title: "Répondre au message" ,
       dataIndex: "orderLink",
       render: (orderLink) => <Link to={orderLink}>Voir l'enquête</Link>
-
     },
     {
       title: "Email",
@@ -131,9 +131,19 @@ function Enquiry() {
  
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="mt-4">
-        <h3 className="mb-4">Liste des enquêtes
-</h3>
+        <h3 className="mb-4">Liste des enquêtes</h3>
         {loading ? (
           <div className="loading-container">
             <ClipLoader
@@ -149,7 +159,7 @@ function Enquiry() {
               <Col span={6}>
                 <Card
                   className="crd100"
-                  title="total de enquêtes"
+                  title="Total de enquêtes"
                   bordered={false}
                 >
                    <div className="text1">{enqstate?.length}</div>
@@ -158,7 +168,7 @@ function Enquiry() {
               <Col span={6}>
                 <Card
                   className="crd100"
-                  title=" enquêtes en attente"
+                  title=" Enquêtes en attente"
                   bordered={false}
                 >
                    <div className="text1">{a}</div>
@@ -167,7 +177,7 @@ function Enquiry() {
               <Col span={6}>
                 <Card
                   className="crd100"
-                  title="enquêtes voir"
+                  title="Enquêtes déjà vues"
                   bordered={false}
                 >
                    <div className="text1">{b}</div>
@@ -176,7 +186,7 @@ function Enquiry() {
               <Col span={6}>
                 <Card
                   className="crd100"
-                  title="enquêtes repondre"
+                  title="Enquêtes déjà répondues"
                   bordered={false}
                 >
                    <div className="text1">{c}</div>

@@ -15,9 +15,12 @@ import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./mainlyout.css";
+import { FaBloggerB } from "react-icons/fa6";
+import { MdOutlineCategory } from "react-icons/md";
+import { Avatar, Badge } from "antd";
 
-import 'react-clock/dist/Clock.css';
-import 'react-time-picker/dist/TimePicker.css';
+import "react-clock/dist/Clock.css";
+import "react-time-picker/dist/TimePicker.css";
 
 import {
   MdCategory,
@@ -25,13 +28,11 @@ import {
   MdFormatListBulleted,
   MdOutlineBorderColor,
   MdOutlineFeaturedPlayList,
-  MdProductionQuantityLimits
+  MdProductionQuantityLimits,
 } from "react-icons/md";
 
 import { FaProductHunt } from "react-icons/fa6";
-import {
-  IoIosAddCircleOutline
-} from "react-icons/io";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { LiaBlogSolid } from "react-icons/lia";
 import { SiMicrodotblog } from "react-icons/si";
 
@@ -44,12 +45,16 @@ import { exporState } from "../feature/blob/blobSlice";
 import { reset } from "../feature/brand/brandslice";
 import { resetstt } from "../feature/category-product/categorySlice";
 import DarkMode from "./darkmode/DarkMode";
-
+import { BiSolidCoupon } from "react-icons/bi";
+import { MdPointOfSale } from "react-icons/md";
+import { ClockCircleOutlined } from "@ant-design/icons";
+import { BsFillCollectionFill } from "react-icons/bs";
+import { MdOutlineSpeakerNotes } from "react-icons/md";
 
 const { Header, Sider, Content } = Layout;
 const Mainlyout = () => {
   const [userData, setUserData] = useState(null);
-  const [value, onChange] = useState('10:00');
+  const [value, onChange] = useState("10:00");
   useEffect(() => {
     const storedUserData = localStorage.getItem("user");
     if (storedUserData) {
@@ -81,22 +86,24 @@ const Mainlyout = () => {
     dispatch(resetstt());
     navigate("/");
   };
-  let conteur=0
+  let conteur = 0;
   const productstate = useSelector((state) => state.product.products);
   for (let i = 0; i < productstate.length; i++) {
-
-    if(productstate[i].quantite == 0){
-conteur++
+    if (productstate[i].quantite == 0) {
+      conteur++;
     }
   }
-  let now = new Date()
-  let wasDate = new Date("Thu Jul 18 2013 15:48:59 GMT+0400")
+  let now = new Date();
+  let wasDate = new Date("Thu Jul 18 2013 15:48:59 GMT+0400");
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical">
           <h3 className="text-white text-center fs-3 py-2">
-            {collapsed ? "OE" : <AnimatedText text="Odoo Expert" />}
+            <Link className="vss" to="/admin">
+              {" "}
+              {collapsed ? "OE" : <AnimatedText text="Odoo Expert" />}
+            </Link>
           </h3>
         </div>
 
@@ -118,53 +125,48 @@ conteur++
           <Menu.Item key="" icon={<RxDashboard className="fs-5" />}>
             <span className="ant-menu-title-content">Tableau de bord</span>
           </Menu.Item>
-          <Menu.SubMenu  icon={<GrCatalog className=" disabled fs-5" />}title="Gestion de stock">
           <Menu.SubMenu
-            title="Produit"
-            icon={<FaProductHunt className="fs-5" /> }
+            title="Vente"
+            icon={<MdPointOfSale className="fs-5" />}
           >
-            
+            <Menu.Item
+              key="order"
+              icon={<MdOutlineBorderColor className="fs-5" />}
+            >
+              <span className="ant-menu-title-content">Commande</span>
+            </Menu.Item>
+            <Menu.Item
+              key="customers"
+              icon={<FaUserFriends className="fs-5" />}
+            >
+              <span className="ant-menu-title-content">Client</span>
+            </Menu.Item>
+          </Menu.SubMenu>
           <Menu.SubMenu
-            title="Produit"
-            icon={<MdOutlineProductionQuantityLimits className="fs-5" /> }
+            title="Produits"
+            icon={<BsFillCollectionFill className="fs-5" />}
           >
-            
           
-          <Menu.Item
-            key="product"
-            icon={<RiProductHuntLine className="fs-5" />}
-          >
-            <span className="ant-menu-title-content">Ajouter produit</span>
-          </Menu.Item>
-        {/*   <Menu.Item
+            <Menu.Item
+              key="product"
+              icon={<RiProductHuntLine className="fs-5" />}
+            >
+              <span className="ant-menu-title-content">Ajouter produit</span>
+            </Menu.Item>
+            {/*   <Menu.Item
             key="add-product-qr"
             icon={<LuQrCode className="fs-5" />}
           >
             <span className="ant-menu-title-content">add-product-qr</span>
           </Menu.Item> */}
-          <Menu.Item
-            key="product-list"
-            icon={<MdOutlineProductionQuantityLimits className="fs-5" />}
-          >
-            <span className="ant-menu-title-content">Liste de produits</span>
-          </Menu.Item>
-          </Menu.SubMenu>
-          <Menu.SubMenu
-            key="brand1"
-            icon={<TbBrandAdobe className="fs-5" />}
-            title="Marque"
-          >
-            <Menu.Item key="brand" icon={<TbBrandAdobe className="fs-5" />}>
-              <span className="ant-menu-title-content">Ajouter une marque</span>
-            </Menu.Item>
             <Menu.Item
-              key="brand-list"
-              icon={<TbBrandBumble className="fs-5" />}
+              key="product-list"
+              icon={<MdOutlineProductionQuantityLimits className="fs-5" />}
             >
-              <span className="ant-menu-title-content">Liste de marques</span>
+              <span className="ant-menu-title-content">Liste de produits</span>
             </Menu.Item>
-          </Menu.SubMenu>
-          <Menu.SubMenu
+          
+          <Menu.SubMenu 
             key="category1"
             icon={<TbCategoryPlus className="fs-5" />}
             title="Catégorie"
@@ -185,7 +187,7 @@ conteur++
                 Liste de catégories
               </span>
             </Menu.Item>
-          </Menu.SubMenu>
+          </Menu.SubMenu>{/* cqt */}
           <Menu.SubMenu
             key="color1"
             icon={<MdColorize className="fs-5" />}
@@ -202,9 +204,23 @@ conteur++
             >
               <span className="ant-menu-title-content">Liste de couleurs</span>
             </Menu.Item>
-          </Menu.SubMenu>
-          </Menu.SubMenu>
+          </Menu.SubMenu>{/* col */}
           <Menu.SubMenu
+            key="brand1"
+            icon={<TbBrandAdobe className="fs-5" />}
+            title="Marque"
+          >
+            <Menu.Item key="brand" icon={<TbBrandAdobe className="fs-5" />}>
+              <span className="ant-menu-title-content">Ajouter une marque</span>
+            </Menu.Item>
+            <Menu.Item
+              key="brand-list"
+              icon={<TbBrandBumble className="fs-5" />}
+            >
+              <span className="ant-menu-title-content">Liste de marques</span>
+            </Menu.Item>
+          </Menu.SubMenu>{/* arq */}
+          {/*   <Menu.SubMenu
             key="fournisseur"
             icon={<FaUsers className="fs-5" />}
             title="Fournisseur"
@@ -225,11 +241,13 @@ conteur++
                 Liste de fournisseurs
               </span>
             </Menu.Item>
+          </Menu.SubMenu> */}
           </Menu.SubMenu>
+
           <Menu.SubMenu
             key="maintenance"
             icon={<FaLayerGroup className="fs-5" />}
-            title="Maintenance"
+            title="Coupon"
           >
             <Menu.Item
               key="add-coupon"
@@ -241,33 +259,20 @@ conteur++
             </Menu.Item>
             <Menu.Item
               key="list-coupon"
-              icon={<MdFormatListBulleted className="fs-5" />}
+              icon={<BiSolidCoupon className="fs-5" />}
             >
               <span className="ant-menu-title-content">Liste de coupons</span>
             </Menu.Item>
           </Menu.SubMenu>
-          </Menu.SubMenu>
-          
           <Menu.SubMenu
-            title="Gestion de vente"
-            icon={<SiMicrodotblog className="fs-5 disabled" />}
+            title="Blogs"
+            icon={<MdOutlineSpeakerNotes className="fs-5" />}
           >
-          
-          <Menu.Item
-            key="order"
-            icon={<MdOutlineBorderColor className="fs-5" />}
-          >
-            <span className="ant-menu-title-content">Commande</span>
-          </Menu.Item>
-          <Menu.Item key="customers" icon={<FaUserFriends className="fs-5" />}>
-            <span className="ant-menu-title-content">Client</span>
-          </Menu.Item>
           <Menu.SubMenu
-            key="blog"
-            icon={<IoIosAddCircleOutline className="fs-5" />}
+            key="blog1"
+            icon={<FaBloggerB className="fs-5" />}
             title="Blog"
           >
-            
             <Menu.Item
               key="add-blog"
               icon={<IoIosAddCircleOutline className="fs-5" />}
@@ -280,6 +285,13 @@ conteur++
             >
               <span className="ant-menu-title-content">Liste de blogs</span>
             </Menu.Item>
+          </Menu.SubMenu>
+
+          <Menu.SubMenu
+            key="blog"
+            icon={<MdOutlineCategory className="fs-5" />}
+            title="catégrie de blog"
+          >
             <Menu.Item
               key="blog-category"
               icon={<IoIosAddCircleOutline className="fs-5" />}
@@ -296,12 +308,11 @@ conteur++
                 Liste de catégories
               </span>
             </Menu.Item>
-            
           </Menu.SubMenu>
-          
           </Menu.SubMenu>
+
           <Menu.Item key="Enquiry" icon={<LuMessagesSquare className="fs-5" />}>
-            <span className="ant-menu-title-content">enquêtes</span>
+            <span className="ant-menu-title-content">Enquêtes</span>
           </Menu.Item>
         </Menu>
       </Sider>
@@ -324,57 +335,47 @@ conteur++
               height: 64,
             }}
           />
-          <DarkMode/>
+          <DarkMode />
           <Dropdown>
             <div className="d-flex gap-3 align-items-center">
               <div className="position-relative">
-                
                 {conteur !== 0 ? (
-  <>
-    <Link to="/admin/product-list">
-      <MdProductionQuantityLimits />
-    </Link>
-    <span className="bga-warning badge rounded-circle p-1 position-absolute">
-      {conteur}
-    </span>
-  </>
-
-    ) : (
-      <><MdProductionQuantityLimits />
-      <span className="bgb-warning badge rounded-circle p-1 position-absolute">
-        
-        0
-      </span></>
-    )}
+                  <>
+                    <Link to="/admin/product-list">
+                      <Badge count={conteur}>
+                        <Avatar shape="square" size="large" />
+                      </Badge>
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <Badge count={0} showZero>
+                      <Avatar shape="square" size="large" />
+                    </Badge>
+                  </>
+                )}
               </div>
               <Dropdown.Toggle
                 as="div"
                 className="d-flex align-items-center"
                 id="dropdown-custom-components"
               >
-                
-                 
-                  
-                
                 <div className=" d-flex flex-column justify-content-center ms-2 darkou">
                   <h5>{name}</h5>
                   <p>{email}</p>
                 </div>
               </Dropdown.Toggle>
-              
               <Dropdown.Menu>
-              
-
                 <Dropdown.Item
                   onClick={handleLogout}
                   style={{ height: "auto", lineHeight: "20px" }}
                 >
-                  <CiLogout /> logout
+                  <CiLogout /> Se déconnecter
                 </Dropdown.Item>
               </Dropdown.Menu>
             </div>
           </Dropdown>
-          
         </Header>
         <Content
           style={{
@@ -385,7 +386,7 @@ conteur++
             borderRadius: borderRadiusLG,
           }}
         >
-          <ToastContainer
+          {/* <ToastContainer
             position="top-right"
             autoClose={250}
             hideProgressBar={false}
@@ -395,7 +396,7 @@ conteur++
             pauseOnFocusLoss
             draggable
             theme="dark"
-          />
+          /> */}
           <Outlet />
         </Content>
       </Layout>

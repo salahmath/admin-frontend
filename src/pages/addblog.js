@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Customlogin from "../componentes/Coustomlogin";
 
 //import { UploadOutlined } from "@ant-design/icons";
@@ -77,9 +77,29 @@ function Addblog() {
     onSubmit: (values) => {
       if (blogid !== undefined) {
         const data = { id: blogid, data: values };
-        dispatch(updateablogs(data));
+        if (valeurimage.length === 0) {
+          toast.error('Il faut choisir une couleur');
+          return false;
+        } else{
+        dispatch(updateablogs(data)).then(()=>{
+          dispatch(exporState());
+          window.location.reload()
+          navigate("/admin/list-blog");
+        });
+;
+        }
       } else {
-        dispatch(creeblogs(values));
+        if (valeurimage.length === 0) {
+          toast.error('Il faut choisir une images');
+          return false;
+
+        } else{
+          dispatch(creeblogs(values)).then(()=>{
+            navigate("/admin/list-blog");
+            window.location.reload()
+          })
+
+        }
       }
 
       setTimeout(() => {
@@ -88,12 +108,7 @@ function Addblog() {
       }, 3000);
     },
   });
-  useEffect(() => {
-    if (creeblog?.length > 0 || isupdated) {
-      navigate("/admin/list-blog");
-      window.location.reload(); // Recharge la page
-    }
-  }, [navigate, creeblog, isupdated]);
+
 
   useEffect(() => {
     if (blogid !== undefined) {
@@ -164,6 +179,17 @@ function Addblog() {
 
   return (
     <>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <h2 className="ajout-blog text-center mb-4  ">
         {blogid !== undefined ? "Modifier le blog" : "Ajouter un nouveau blog"}
       </h2>

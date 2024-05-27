@@ -15,6 +15,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { css } from '@emotion/react';
 import { ClipLoader } from 'react-spinners';
+import { ToastContainer } from 'react-toastify';
 
 const override = css`
   display: block;
@@ -43,25 +44,25 @@ function Enquiries() {
   }
     const columns1 = [
       {
-        title: 'key',
+        title: 'Num',
         dataIndex: 'key',
       },
         {
-          title: 'nom',
+          title: 'Nom',
           dataIndex: 'nom',
         },
         {
-          title: 'email',
+          title: 'Email',
           dataIndex: 'email',
         },
         {
-          title: 'mobile',
+          title: 'Mobile',
           dataIndex: 'mobile',
         },{
-          title: 'status',
+          title: 'Statut',
           dataIndex: 'status',
         },{
-          title: 'action',
+          title: 'Action',
           dataIndex: 'action',
         },
       ];
@@ -131,7 +132,7 @@ const idrnq = location.pathname.split("/")[3]
             )
         });
     }
-    
+    /* repondu sur message	 */
  
    const Supprimer=async(e)=>{
     await dispatch(deleteenquirys(e))
@@ -143,6 +144,17 @@ const idrnq = location.pathname.split("/")[3]
    } 
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
    <div className="mt-4">
         <h3 className="mb-4">avis récents</h3>
         

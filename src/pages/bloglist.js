@@ -11,6 +11,7 @@ import { ClipLoader } from 'react-spinners';
 import { Card, Col, Row,Input } from "antd";
 
 import { MdSettingsVoice } from "react-icons/md";
+import { ToastContainer } from 'react-toastify';
 
 const { Search } = Input;
 
@@ -55,7 +56,7 @@ const dispatch= useDispatch()
   };
     const columns1 = [
         {
-          title: 'title',
+          title: 'Titre',
           dataIndex: 'title',
         },
         {
@@ -63,17 +64,17 @@ const dispatch= useDispatch()
           dataIndex: 'Numbre',
         },
         {
-          title: 'description',
+          title: 'Description',
           dataIndex: 'description',
         },
         {
-          title: 'categorie',
+          title: 'Categorie',
           dataIndex: 'category',
         },{
-          title: 'auteur',
+          title: 'Auteur',
           dataIndex: 'author',
         },{
-          title: 'action',
+          title: 'Action',
           dataIndex: 'action',
         },
       ];
@@ -139,8 +140,19 @@ const dispatch= useDispatch()
       };
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
     <div className="mt-4">
-         <h3 className="mb-4">liste de blog</h3>
+         <h3 className="mb-4">liste de blogs</h3>
 
          {loading ? ( // Affiche l'animation de chargement si loading est vrai
           <div className="loading-container">
@@ -149,7 +161,7 @@ const dispatch= useDispatch()
         ) : ( <>
           <Row className='rowed' gutter={16}>
           <Col span={8}>
-              <Card className="crd100" title="Nombre de blog" bordered={false}>
+              <Card className="crd100" title="Nombre de blogs" bordered={false}>
                   
                   <div className="text1" >{conteur}</div>  
               </Card>

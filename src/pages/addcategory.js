@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Customlogin from "../componentes/Coustomlogin";
 import { useFormik } from "formik";
 import {  useLocation, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
 import { object, string, number, array, date, InferType } from "yup";
 import { creecategories, getacategories, resetstt, updatecategorie } from "../feature/category-product/categorySlice";
@@ -40,7 +40,7 @@ const loca = location.pathname.split("/")[3]
      
       formik.resetForm();
       setTimeout(() => {
-      navigate("/admin/product-list");
+      navigate("/admin/category-list");
         
         dispatch(resetstt())
       }, 3000);   
@@ -82,6 +82,17 @@ const loca = location.pathname.split("/")[3]
     <div>
       <h3 > {(loca!==undefined)?"Modifier le category":"Ajouter une categorie"} une categorie</h3>
       <br />
+      <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <form onSubmit={formik.handleSubmit}>
       <Customlogin  name="name"
             onChange={formik.handleChange("name")}

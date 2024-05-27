@@ -1,4 +1,5 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import blogService from "./blobService";
 
 export const getblogs = createAsyncThunk(
@@ -102,13 +103,14 @@ export const blogSlice = createSlice({
             state.isError=false;
             state.ismessage=true;
             state.crblog= action.payload;
+           toast.success(("blog ajouter avec succés"))
+
         })
         .addCase(creeblogs.rejected ,(state,action)=>{
             state.isLoading = false;
             state.isSuccess = false;
             state.isError=true;
             state.message = action.error;
-           
         })
         
         .addCase(getablogs.pending ,(state)=>{
@@ -142,6 +144,8 @@ export const blogSlice = createSlice({
                 state.isError=false;
                 state.isupdated=true;
                 state.upblogs= action.payload;
+           toast.success(("blog modifier avec succés"))
+
             })
             .addCase(updateablogs.rejected ,(state,action)=>{
                 state.isLoading = false;
@@ -158,6 +162,8 @@ export const blogSlice = createSlice({
                     state.isSuccess = true;
                     state.isError=false;
                     state.bloges= action.payload
+                    toast.success(("blog supprimer avec succés"))
+
                 })
                 .addCase(deleteblogs.rejected ,(state,action)=>{
                     state.isLoading = false;

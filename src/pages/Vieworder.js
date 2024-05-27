@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import { Getaorder, Udateorder } from "../feature/auth/authslice";
 import { updateaquan2 } from "../feature/product/productSlice";
 import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const override = css`
   display: block;
@@ -50,7 +51,7 @@ function Vieworder() {
 
   const orderstate = useSelector((state) => state?.auth?.Getaorder);
   const Udateorders = (a, b) => {
-    dispatch(Udateorder({ a, b }));
+    dispatch(Udateorder({ a, b }))
   };
 
   useEffect(() => {
@@ -126,6 +127,17 @@ function Vieworder() {
 
   return (
     <div>
+<ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="mt-4">
         <h3 className="mb-4">Commande num: "{getid}"</h3>
         {loading ? (

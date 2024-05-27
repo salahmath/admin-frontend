@@ -12,6 +12,7 @@ import { Card, Col, Row,Input } from "antd";
 import { css } from "@emotion/react";
 import { ClipLoader } from "react-spinners";
 import { MdSettingsVoice } from "react-icons/md";
+import { ToastContainer } from "react-toastify";
 
 const { Search } = Input;
 
@@ -39,11 +40,11 @@ function Colorlist() {
 
   const columns1 = [
     {
-      title: "Name",
+      title: "Nom",
       dataIndex: "name",
     },
     {
-      title: "action",
+      title: "Action",
       dataIndex: "action",
     },
   ];
@@ -118,6 +119,17 @@ let conteur = 0
   return (
     <div>
       <div className="mt-4">
+      <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
         <h3 className="mb-4">liste de coleurs</h3>
         {loading ? ( // Affiche l'animation de chargement si loading est vrai
           <div className="loading-container">
@@ -132,7 +144,7 @@ let conteur = 0
           <>
           <Row className='rowed' gutter={16}>
             <Col span={8}>
-                <Card className="crd100" title="Nombre de coleur" bordered={false}>
+                <Card className="crd100" title="Nombre de coleurs" bordered={false}>
                     
                     <div className="text1" >{conteur}</div>  
                 </Card>

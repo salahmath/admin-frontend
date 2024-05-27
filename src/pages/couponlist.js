@@ -10,6 +10,7 @@ import { css } from '@emotion/react';
 import { ClipLoader } from 'react-spinners';
 import { Card, Col, Row,Input } from "antd";
 import { MdSettingsVoice } from "react-icons/md";
+import { ToastContainer } from 'react-toastify';
 
 const { Search } = Input;
 
@@ -24,17 +25,17 @@ function Couponlist() {
 
     const columns1 = [
         {
-            title: 'key',
+            title: 'Num',
             dataIndex: 'key',
           },
         {
-          title: 'Name',
+          title: 'Nom',
           dataIndex: 'name',
         },{
-            title: 'expiry',
+            title: 'Expirée',
             dataIndex: 'expiry',
           },{
-            title: 'discount',
+            title: 'Réduction',
             dataIndex: 'discount',
           }, {
           title: 'Action',
@@ -118,8 +119,19 @@ function Couponlist() {
   
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
     <div className="mt-4">
-         <h3 className="mb-4">liste de coupon</h3>
+         <h3 className="mb-4">liste de coupons</h3>
          {loading ? (
           <div className="loading-container">
             <ClipLoader color={'#123abc'} size={150} loading={loading} />
@@ -128,7 +140,7 @@ function Couponlist() {
           <>
             <Row className='rowed' gutter={16}>
             <Col span={8}>
-                <Card className="crd100" title="Nombre de coupon" bordered={false}>
+                <Card className="crd100" title="Nombre de coupons" bordered={false}>
                     
                     <div className="text1" >{conteur}</div>  
                 </Card>

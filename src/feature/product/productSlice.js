@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ProductService from "./productService";
 import { resetstt } from "../category-product/categorySlice";
+import { toast } from "react-toastify";
 
 export const getProduct = createAsyncThunk(
     "product/getallproduct",
@@ -108,6 +109,7 @@ export const ProductSlice= createSlice({
                             state.isError=false;
                             state.ismessage=true;
                             state.products = [];
+                            toast.success('Produit ajouter avec succés')
                             } )
                             .addCase(createProduct.rejected ,(state,action)=>{
                                 state.isLoading = false;
@@ -143,6 +145,8 @@ export const ProductSlice= createSlice({
                                                     state.isError=false;
                                                     state.isupdated=false;
                                                     state.up_Product = action.payload;
+                            toast.success('Produit modifier avec succés')
+
                                                     } )
                                                     .addCase(updateaProduct.rejected ,(state,action)=>{
                                                         state.isLoading = false;
@@ -160,6 +164,8 @@ export const ProductSlice= createSlice({
                                                                 state.isError=false;
                                                                 state.isupdated=false;
                                                                 state.up_Product = action.payload;
+                            toast.success('Produit supprimer avec succés')
+
                                                                 } )
                                                                 .addCase(deleteaProduct.rejected ,(state,action)=>{
                                                                     state.isLoading = false;

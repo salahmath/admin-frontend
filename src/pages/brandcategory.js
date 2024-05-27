@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Customlogin from "../componentes/Coustomlogin";
 import { useFormik } from "formik";
 import { object, string } from "yup";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getabrand, reset, creebrands, updatebrand } from "../feature/brand/brandslice"; 
 import { useLocation, useNavigate } from "react-router-dom";
@@ -92,6 +92,17 @@ name: string().required("Veuillez saisir un titre."),
 
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div>
       {getbrandid !== undefined ? "Modifier la marque" : "Ajouter une nouvelle marque"}
         <br />

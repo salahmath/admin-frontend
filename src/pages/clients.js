@@ -12,6 +12,7 @@ import { FaRegEye } from "react-icons/fa";
 import { MdSettingsVoice } from "react-icons/md";
 import { ImEyeBlocked } from "react-icons/im";
 import { Bloquser, Debloquser } from "../feature/auth/authslice";
+import { ToastContainer } from "react-toastify";
 
 const { Search } = Input;
 
@@ -23,25 +24,25 @@ const override = css`
 
 const columns1 = [
   {
-    title: 'key',
+    title: 'Num',
     dataIndex: 'key',
   },
   {
-    title: 'nom et prenom',
+    title: 'Nom et Prénom',
     dataIndex: 'lastname',
     defaultSortOrder: "descend",
     sorter: (a, b) => a.lastname.length - b.lastname.length,
   },
   {
-    title: 'email',
+    title: 'Email',
     dataIndex: 'email',
   },
   {
-    title: 'mobile',
+    title: 'Mobile',
     dataIndex: 'mobile',
   },
   {
-    title: 'action',
+    title: 'Action',
     dataIndex: 'action',
   },
 
@@ -142,6 +143,17 @@ let conteur = 0
   
   return (
     <div>
+          <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="mt-4">
         <h3 className="mb-4">liste de clients</h3>
          

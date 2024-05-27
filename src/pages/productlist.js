@@ -11,6 +11,7 @@ import QRCode from 'qrcode.react'; // Importez la bibliothèque pour générer l
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { deleteaProduct, getProduct } from "../feature/product/productSlice";
+import { ToastContainer } from "react-toastify";
 
 const { Search } = Input;
 
@@ -22,39 +23,39 @@ const override = css`
 
 const columns1 = [
   {
-    title: "key",
+    title: "Num",
     dataIndex: "key",
   },
   {
-    title: "produit",
+    title: "Produit",
     dataIndex: "title",
     defaultSortOrder: "descend",
     sorter: (a, b) => a.title.localeCompare(b.title),
   },
   {
-    title: "prix",
+    title: "Prix",
     dataIndex: "prix",
     defaultSortOrder: "descend",
     sorter: (a, b) => a.prix - b.prix,
   },
   {
-    title: "quantite",
+    title: "Quantite",
     dataIndex: "quantite",
     defaultSortOrder: "descend",
     sorter: (a, b) => a.quantite - b.quantite,
   },
   {
-    title: "marque",
+    title: "Marque",
     dataIndex: "marque",
     defaultSortOrder: "descend",
     sorter: (a, b) => a.marque.localeCompare(b.marque),
   },
   {
-    title: "color",
+    title: "Coleur",
     dataIndex: "color",
   },
   {
-    title: "status",
+    title: "Statut",
     dataIndex: "status",
   },
  
@@ -68,7 +69,7 @@ const columns1 = [
     ),
   },
   {
-    title: "action",
+    title: "Action",
     dataIndex: "action",
   },
 ];
@@ -256,8 +257,19 @@ const handleVoiceSearch = () => {
 
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="mt-4">
-        <h3 className="mb-4">liste de produit</h3>
+        <h3 className="mb-4">liste de produits</h3>
 
         {loading ? ( // Affiche l'animation de chargement si loading est vrai
     <div className="loading-container">
@@ -272,13 +284,13 @@ const handleVoiceSearch = () => {
     <div>
         <Row gutter={16}>
             <Col span={8}>
-                <Card className="crd1" title="Produit en stock" bordered={false}>
+                <Card className="crd1" title="Produits en stock" bordered={false}>
                     
                     <div className="text1" >{conteur}</div>  
                 </Card>
             </Col>
             <Col span={8}>
-                <Card className="crd2" title="Produit hors stock" bordered={false}>
+                <Card className="crd2" title="Produits hors de stock" bordered={false}>
                     
                     <div className="text1" >{conteur2}</div>  
                 </Card>

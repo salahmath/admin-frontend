@@ -42,7 +42,8 @@ function App() {
         <Route path="/reset-password" element={<Resetpassword />} />
         <Route path="/forgot-password" element={<Forgotpassword />} />
         <Route path='/admin' element={<Mainlyout />}>
-          <Route index element={<Dashbord />} /> {/* Tableau de bord */}
+          {/* <Route index element={<Dashbord />} /> {/* Tableau de bord  */} 
+           <Route index element={<Dashbord />} /> 
           <Route path='enquiries' element={<Enquiries />} />
           <Route path='enquiries/:id' element={<Enquiries />} />
           <Route path='list-blog' element={<Bloglist/>}/>

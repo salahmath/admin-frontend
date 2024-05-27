@@ -11,6 +11,7 @@ import { ClipLoader } from 'react-spinners';
 import { Card, Col, Row } from "antd";
 
 import { Button, Modal } from 'antd';
+import { ToastContainer } from 'react-toastify';
 const override = css`
   display: block;
   margin: 10 auto;
@@ -92,6 +93,17 @@ function BlogcategoryList() {
   return (
     <div>
     <div className="mt-4">
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
          <h3 className="mb-4">liste de categories</h3>
          {loading ? ( // Affiche l'animation de chargement si loading est vrai
           <div className="loading-container">

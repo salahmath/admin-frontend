@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { useFormik } from "formik";
 import { object, string, number, date } from "yup";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { creecoupon, getacoupon, updatecoupon } from "../feature/coupon/couponslice";
@@ -11,14 +11,14 @@ import Customlogin from "../componentes/Coustomlogin";
 
 function Couponadded() {
   const location = useLocation();
-  const brstate = useSelector((state) => state.coupon);
+  const brstate = useSelector((state) => state?.coupon);
   const getidcoupon = location.pathname.split("/")[3];
-  const { isSuccess, isError, isLoading, ismessage, coupon, couponss, isupdated } = brstate;
+  const { isSuccess, isError, isLoading, ismessage, coupon, couponss, isupdated } = brstate?.coupon;
 
   const userSchema = object({
     name: string().required("Il faut écrire votre titre"),
     expiry: string().required("Il faut choisir une date d'expiration"),
-    discount: number().required("Il faut écrire le montant de la réduction"),
+    discount: number().required("Il faut écrire le montant de la réduction").min(0.0001, "La réduction doit être supérieure à 0"),
   });
 
   const dispatch = useDispatch();
@@ -37,18 +37,20 @@ function Couponadded() {
     onSubmit: (values) => {
       if (getidcoupon !== undefined) {
         const data = { id: getidcoupon, data: values };
-        dispatch(updatecoupon(data));
+        dispatch(updatecoupon(data)).then(()=>{
+          setTimeout(() => {
+            dispatch(reset());
+            navigate("/admin/list-coupon");
+          }, 300);
+        });
       } else {
-        dispatch(creecoupon(values));
-      }
+        dispatch(creecoupon(values))
+        
+      };
       formik.resetForm();
-      setTimeout(() => {
-        dispatch(reset());
-        navigate("/admin/list-coupon");
-      }, 300);
+     
     },
   });
-
   useEffect(() => {
     if (getidcoupon !== undefined) {
       dispatch(getacoupon(getidcoupon)).then((response) => {
@@ -60,24 +62,6 @@ function Couponadded() {
       dispatch(reset());
     }
   }, [getidcoupon]);
-
-  useEffect(() => {
-    if (isSuccess && ismessage) {
-      toast.success('La nouvelle coupon a été ajoutée avec succès.');
-    }
-    if (isError) {
-      toast.error('Erreur lors de l\'ajout du coupon');
-    }
-  }, [isSuccess, isError, isLoading, ismessage]);
-
-  useEffect(() => {
-    if (isSuccess && isupdated) {
-      toast.success('la coupon a été mise à jour avec succès.');
-    }
-    if (isError) {
-      toast.error('Erreur lors de la modification du coupon');
-    }
-  }, [isSuccess, isError, couponss, isupdated]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -99,9 +83,27 @@ function Couponadded() {
     setFormattedExpiry(event.target.value);
     formik.handleChange(event);
   };
-
+useEffect(()=>{
+if(brstate?.coupones)
+setTimeout(() => {
+  dispatch(reset());
+  navigate("/admin/list-coupon");
+}, 300);
+},[brstate?.coupones])
+console.log(brstate?.coupon);
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <h3>{getidcoupon !== undefined ? "Modifier la coupon" : "Ajouter une coupon"} un coupon</h3>
       <form onSubmit={formik.handleSubmit}>
         <label htmlFor="name">Nom:</label>
@@ -114,7 +116,10 @@ function Couponadded() {
           onBlur={formik.handleBlur}
           val={formik.values.name}
         />
+        <div className="error1">
         {formik.touched.name && formik.errors.name && <div>{formik.errors.name}</div>}
+        </div>
+      
 
         <label htmlFor="expiry">Date d'expiration:</label>
         <Customlogin
@@ -126,8 +131,9 @@ function Couponadded() {
           onBlur={formik.handleBlur}
           val={formattedExpiry}
         />
+          <div className="error1">
         {formik.touched.expiry && formik.errors.expiry && <div>{formik.errors.expiry}</div>}
-
+</div>
         <label htmlFor="discount">Réduction:</label>
         <Customlogin
           id="discount"
@@ -138,8 +144,9 @@ function Couponadded() {
           onBlur={formik.handleBlur}
           val={formik.values.discount}
         />
+          <div className="error1">
         {formik.touched.discount && formik.errors.discount && <div>{formik.errors.discount}</div>}
-
+</div>
         <Button type="submit" variant="outline-success">
           {getidcoupon !== undefined ? "Modifier la coupon" : "Ajouter une coupon"}
         </Button>

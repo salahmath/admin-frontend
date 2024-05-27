@@ -2,7 +2,7 @@ import { css } from "@emotion/react";
 import { Table } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  useLocation } from "react-router-dom";
+import {  useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import {
   geteteenquirys,
@@ -11,6 +11,7 @@ import {
 } from "../feature/enquiry/enquiryslice";
 import ReactQuill from "react-quill";
 import { Button, Flex } from "antd";
+import { ToastContainer } from "react-toastify";
 const override = css`
   display: block;
   margin: 10 auto;
@@ -34,7 +35,7 @@ function Viewenq() {
       dataIndex: "reponse",
     },
     {
-      title: "Status",
+      title: "Statut",
       dataIndex: "action",
     },
     {
@@ -42,6 +43,7 @@ function Viewenq() {
       dataIndex: "btn",
     },
   ];
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const location = useLocation();
   const getid = location.pathname.split("/")[3];
@@ -51,7 +53,12 @@ function Viewenq() {
     dispatch(updtenquirys({ a, b }));
   };
   const Ajoutermessage = (a, b) => {
-    dispatch(messages({a,b}));
+    dispatch(messages({a,b})).then(()=>{
+      setTimeout(() => {
+      navigate("/admin/Enquiry")
+        
+      }, 1000);
+    });
   };
 
   useEffect(() => {
@@ -108,6 +115,17 @@ function Viewenq() {
   };
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="mt-4">
         <h3 className="mb-4">Enquiry num: "{getid}"</h3>
         {loading ? (

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Tag } from "antd";
 import { MdPayment } from "react-icons/md";
+import { ToastContainer } from "react-toastify";
 const { Search } = Input;
 
 const override = css`
@@ -43,7 +44,16 @@ function Orderlist() {
     };
     recognition.start();
   }, [setText]);
-
+  const formatMobileNumber = (number) => {
+    // Suppression des espaces existants
+    const cleanedNumber = number.replace(/\s+/g, '');
+    
+    // Application des groupes 2, 3, 3
+    const formattedNumber = cleanedNumber.replace(/(\d{2})(\d{3})(\d{3})/, '$1 $2 $3');
+    
+    return formattedNumber;
+  };
+  
   const generateQRValue = (order) => {
     const productNames = order?.orderItems?.map((item) => item?.product?.title);
     const totalPrice = order?.totalPriceAfterdiscount;
@@ -66,7 +76,10 @@ function Orderlist() {
       title: "Adresse",
       dataIndex: "Adresse",
     },
-   
+    {
+      title: "Mobile",
+      dataIndex: "mobile",
+    },
     {
       title: "Prix de commande",
       dataIndex: "price",
@@ -118,6 +131,10 @@ function Orderlist() {
       },
     },
     {
+      title: "Livraision",
+      dataIndex: "Livraision",
+    },
+    {
       title: "Plus de details",
       dataIndex: "orderLink",
       render: (orderLink) => <Link to={orderLink}><FcPlus/></Link>,
@@ -127,11 +144,19 @@ function Orderlist() {
 
   const formattedData = orders?.map((order, index) => ({
     key: index,
-    name: order?.user?.lastname,
+    name: order?.user?.lastname+" "+order?.user?.Secondname,
+    mobile:<Tag color="blue" >
+    {formatMobileNumber(order?.user?.mobile)}
+   </Tag> ,
    Adresse: order?.Shippinginfo?.Address+","+order?.Shippinginfo?.Other,
     price: order?.totalPriceAfterdiscount+"DT",
     paymentStatus:order?.type,
     méthode:order?.method,
+    Livraision:order?.totalPriceAfterdiscount >300 ?  <Tag color="green" >
+   Livraision gratuite
+  </Tag>: <Tag color="volcano" >
+  Livraison non gratuite
+  </Tag>,
     status: (
       <select
         className="form-select form-control"
@@ -157,8 +182,19 @@ function Orderlist() {
 
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="mt-4">
-        <h3 className="mb-4">Liste des commandes</h3>
+        <h3 className="mb-4">Liste de commandes</h3>
         {loading ? (
           <div className="loading-container">
             <ClipLoader
@@ -183,7 +219,7 @@ function Orderlist() {
             </Row>
             <br />
             <Search
-              placeholder="Recherche par nom"
+              placeholder="Recherche par nom ou date"
               enterButton="Rechercher"
               size="large"
               value={text}

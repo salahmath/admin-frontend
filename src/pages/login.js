@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import CustomLogin from '../componentes/Coustomlogin'; // Assurez-vous que le chemin d'importation est correct
 import {Link, useNavigate}from"react-router-dom"
 import { useFormik } from 'formik';
 import { object, string, number, date, InferType } from 'yup';
 import { login } from '../feature/auth/authslice';
+import { ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 const  Login=()=>{
@@ -14,7 +15,9 @@ const  Login=()=>{
   )
   useEffect(()=>{
 if(user!=="null" && isSuccess ){
+  setTimeout(() => {
   navigate("admin")
+  }, 1000);
 }
   },[user,isLogin , isSuccess , isError , message,navigate])
   let userSchema = object({
@@ -37,6 +40,17 @@ if(user!=="null" && isSuccess ){
  
   return (
     <>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className='py-5' style={{background: "#9c9a4c" , minHeight:"100vh"}}>
       <br/>
       <br/>
@@ -45,21 +59,17 @@ if(user!=="null" && isSuccess ){
         <div className='my-5 w-25 bg-white rounded-3 mx-auto p-4'>
           <h3 className='text-center'>se connecter</h3>
           <p className='text-center'>connecter a son compte</p>
-          {message.message == "rejected" ? "you are not admin": ""}
+         
           <form onSubmit={formik.handleSubmit}>
-            <CustomLogin type="text" name='email'id="email" val={formik.values.email} Label="adresse email"  onChange={formik.handleChange('email')}/>
+            <CustomLogin type="text" name='email'id="email" val={formik.values.email} Label="Adresse email"  onChange={formik.handleChange('email')}/>
             <br/>
             <div className='error'>
-            {formik.touched.email && formik.errors.email ? (
-         <div>{formik.errors.email}</div>
-       ) : null}
+            {formik.touched.email && formik.errors.email }
             </div>
             <CustomLogin type="password" name='password' id="password" Label="votre mot de passe"  val={formik.values.password} onChange={formik.handleChange('password')}/>
             <br/>
             <div className='error'>
-            {formik.touched.password && formik.errors.password ? (
-         <div>{formik.errors.password}</div>
-       ) : null}
+            {formik.touched.password && formik.errors.password }
             </div>
            
             <button 

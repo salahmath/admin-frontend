@@ -8,22 +8,30 @@ import { useEffect } from "react";
 import { Getmonth, Getmonth2, Getorders, Getordersnum1, Getordersum } from "../feature/auth/authslice";
 import { Pie } from '@ant-design/plots';
 import { Tag } from "antd";
+import { Row, Col, Statistic, Card } from 'antd';
+import { RiCoupon2Fill } from "react-icons/ri";
+import { Divider, Flex } from 'antd';
+import { ToastContainer } from "react-toastify";
+
 import { MdPayment } from "react-icons/md";
+import { getblogs } from "../feature/blob/blobSlice";
+import { getcoupon } from "../feature/coupon/couponslice";
+import { getUsers } from "../feature/customrs/customerslice";
 const PlotMaps = {};
 
 function Dashbord() {
 const [datas ,setdatas]=useState([])
   const columns1 = [
     {
-      title: 'clé',
+      title: 'Num',
       dataIndex: 'key',
     },
     {
-      title: 'Nom de client',
+      title: 'Nom et Prénom de client',
       dataIndex: 'name',
     },
     {
-      title: 'numéro de télephone',
+      title: 'Numéro de télephone',
       dataIndex: 'mobile',
     },
     {
@@ -31,11 +39,11 @@ const [datas ,setdatas]=useState([])
       dataIndex: 'count',
     },
     {
-      title: 'prix total de  commande',
+      title: 'Prix total',
       dataIndex: 'prixtotal',
     },
     {
-      title: 'status',
+      title: 'Statut',
       dataIndex: 'status',
     },{
       title: "Statut de paiement",
@@ -126,6 +134,16 @@ const showTooltip = (evt, pie) => {
     data: { data: evt?.data?.data },
   });
 };
+useEffect(()=>{
+  dispatch(getblogs());
+  dispatch(getcoupon());
+  dispatch(getUsers());
+},[dispatch])
+
+const blogstate = useSelector((state)=>state?.blog?.blog)
+const brandstate = useSelector((state)=> state.coupon.coupon)
+const customerState = useSelector((state) => state?.customer?.customers);
+
 
 const hideTooltip = (evt, pie) => {
   PlotMaps[pie]?.chart?.emit('tooltip:hide');
@@ -211,31 +229,80 @@ const config10 = {
 
   return (
     <>
-      <div class="row col-12">
-      <div class=" col-3">
+     <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
+  <br/><br/>
+  <div class="parent">
+  <div class="child"></div>
 </div>
-    <div class="col-md-6 mb-3">
-        <div class="bg-white p-3 rounded-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                <p class="mb-0">Total des commandes</p>
-                    <h4 class="mb-0">{dashstate2 && dashstate2[0]?.count}</h4>
-                </div>
-                <div class="d-flex flex-column align-items-end">
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  <br/><br/>
 
+      <div class="row col-12">
+      <Row gutter={[20, 20]}> {/* gutter pour définir l'espacement entre les colonnes */}
+  <Col xs={50} sm={12} md={8} lg={6}> {/* Réglez xs, sm, md, lg pour définir la largeur des colonnes sur différentes tailles d'écran */}
+ 
+  <Tag color="magenta" className="text-center"> 
+    <Flex gap="10px " >
+    <Statistic 
+  title="Nombre de clients" 
+  value={(customerState && customerState?.length) || 0} // Assurez-vous de gérer le cas où customerState est null ou undefined
+  valueStyle={{ color: 'red', fontSize: '20px'}} // Exemple de styles CSS personnalisés
+/>
+
+      
+    </Flex>
+    </Tag>
+  </Col>
+  
+  <Col xs={24} sm={12} md={8} lg={6}>
+  <Tag color="blue" className="text-center"> 
+      <Statistic  title="Nombre de commandes" value={(dashstate2 && dashstate2[0]?.count) || 0} valueStyle={{ color: 'blue', fontSize: '20px'}}/>
+        </Tag>
+
+  </Col>
+  <Col xs={24} sm={12} md={8} lg={6}>
+  <Tag color="green" className="text-center"> 
+      <Statistic title="Nombre de blogs" value={(blogstate && blogstate?.length)|| 0} valueStyle={{ color: 'green', fontSize: '20px'}}/>
+        </Tag>
+
+  </Col>
+  <Col xs={24} sm={12} md={8} lg={6}>
+  <Tag color="purple" className="text-center"> 
+      <Statistic title="Nombre de coupons" value={(brandstate && brandstate?.length)||0} valueStyle={{ color: 'purple', fontSize: '20px' }}/>
+        </Tag>
+
+  </Col>
+  {/* Ajoutez plus de colonnes pour d'autres métriques si nécessaire */}
+</Row>
+    
+</div>
+  <br/><br/>
+  <div class="parent">
+  <div class="child"></div>
+</div>
       <div className="row d-flex flex-wrap">
   <div className="mt-4 col-12 col-sm-12 col-md-6 col-lg-6">
-    <h3 className="mb-4">Statistique de commandes par Mois</h3>
+    <h3 className="mb-4">
+    <Flex gap="4px 0" wrap>
+      <Tag color="#87d068">Commande/Mois</Tag>
+    </Flex>
+  </h3>
     <Column {...config} />
   </div>
   <div className="mt-4 col-12 col-sm-12 col-md-6 col-lg-6">
-<h3 className="mb-4">Statistique de status de commandes</h3>
+<h3 className="mb-4">
+<Flex gap="4px 0" wrap>
+      <Tag color="#2db7f5">Statut/Commande</Tag>
+    </Flex></h3>
 
    <Pie
       style={{ width: '100%' }}
@@ -262,13 +329,17 @@ const config10 = {
 </div>
 
   <br/>
-  <h3 className="mb-4 text-center">Statistiques des produits annulées</h3>
+  <h3 className="mb-4 text-center"><Flex gap="4px 0" wrap>
+      <Tag color="#f50">Produits/annulés</Tag>
+    </Flex></h3>
 
 <div className="col-12">
   <Column {...config10} />
 </div>
       <div className="mt-4">
-        <h3 className="mb-4">commande récente</h3>
+        <h3 className="mb-4"><Flex gap="4px 0" wrap>
+      <Tag color="#108ee9">Commandes récentes</Tag>
+    </Flex></h3>
       <Table columns={columns1} dataSource={data1} size="middle" />
       </div>
    

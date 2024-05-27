@@ -6,6 +6,9 @@
   :where(.css-dev-only-do-not-override-1r287do).ant-layout{
     background: #282c34 !important
   }
+  :where(.css-dev-only-do-not-override-1r287do).ant-avatar-lg.ant-avatar-square{
+    background: white;
+  }
   .form-control{
     background: #282c34 !important
   }
@@ -236,4 +239,21 @@ body{
 
   font-family: Roboto , sans-serif !important;
 
+}
+.vss {
+  text-decoration: none; /* Supprime le soulignement */
+  color: #551A8b;
+
+}
+
+.vss:hover {
+  text-decoration: none; /* Optionnel : supprimer le soulignement au survol */
+  color: #551A8b;
+
+}
+:where(.css-dev-only-do-not-override-1r287do) a{
+  color: #551A8b;
+}
+:where(.css-dev-only-do-not-override-1r287do).ant-table-wrapper .ant-table-tbody .ant-table-row >.ant-table-cell-row-hover {
+  background: #E178C5 ;
 }

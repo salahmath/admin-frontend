@@ -10,6 +10,7 @@ import { Card, Col, Row,Input } from "antd";
 import { css } from '@emotion/react';
 import { ClipLoader } from 'react-spinners';
 import { MdSettingsVoice } from "react-icons/md";
+import { ToastContainer } from 'react-toastify';
 
 const { Search } = Input;
 
@@ -40,12 +41,12 @@ function Categorylist() {
     };
     const columns1 = [
         {
-          title: 'Name',
+          title: 'Nom',
           dataIndex: 'name',
         },
        
         {
-          title: 'action',
+          title: 'Action',
           dataIndex: 'action',
         },
       ];
@@ -106,6 +107,17 @@ function Categorylist() {
         };
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
     <div className="mt-4">
          <h3 className="mb-4">liste de categories</h3>
          {loading ? ( // Affiche l'animation de chargement si loading est vrai
@@ -116,7 +128,7 @@ function Categorylist() {
 
 <Row className='rowed' gutter={16}>
             <Col span={8}>
-                <Card className="crd100" title="Nombre de categorie" bordered={false}>
+                <Card className="crd100" title="Nombre de categories" bordered={false}>
                     
                     <div className="text1" >{conteur}</div>  
                 </Card>

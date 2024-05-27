@@ -163,7 +163,7 @@ export const authSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.user = null;
-
+        toast.error("Désolé, ilya une probléme")
       })
       .addCase(getordrs.pending, (state) => {
         state.isLoading = true;
@@ -308,7 +308,7 @@ export const authSlice = createSlice({
         state.isSuccess = false;
         state.isError = true;
         state.message = action.error;
-        toast.error = ("Status udated avec erreur")
+        toast.error = ("Status updated avec une erreur")
 
       })
 
@@ -322,7 +322,7 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.isError = false;
         state.Bloquser = action.payload;
-        toast.success("Utilisateur bloquer avec success");
+        toast.success("Utilisateur bloquer avec succés");
       })
       
       .addCase(Bloquser.rejected, (state, action) => {
@@ -341,7 +341,7 @@ export const authSlice = createSlice({
         state.isSuccess = true;
         state.isError = false;
         state.Debloquser = action.payload;  
-              toast.success("Utilisateur débloquer avec success");
+              toast.success("Utilisateur débloquer avec succés");
 
       })
       

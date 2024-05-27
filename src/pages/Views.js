@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //import './styles.css'; // Fichier CSS pour les styles personnalisés
 import { Form, Button } from 'react-bootstrap';
 import { Table } from 'antd';
+import { ToastContainer } from 'react-toastify';
 
 function Views() {
   const location = useLocation();
@@ -72,6 +73,17 @@ function Views() {
 
   return (
     <div className="container mt-5">
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <div className="card">
         <div className="card-header bg-primary text-white">
           Détails de l'enquête

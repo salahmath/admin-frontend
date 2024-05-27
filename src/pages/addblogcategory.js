@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Customlogin from "../componentes/Coustomlogin";
 import { useFormik } from "formik";
 import {  useLocation, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from "react-redux";
 import { object, string, number, array, date, InferType } from "yup";
 import { creatcoleur } from "../feature/color/colorSlice";
@@ -84,6 +84,17 @@ useEffect(() => {
 
   return (
     <div>
+    <ToastContainer
+            position="top-right"
+            autoClose={250}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            theme="dark"
+          />
       <h3 >{catid!==undefined ?"Modifier la categorie":"Ajouter une categorie"} une categorie de blog</h3>
       <br />
       <form onSubmit={formik.handleSubmit}>

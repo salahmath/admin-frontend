@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import couponService from "./couponservice";
+import { toast } from "react-toastify";
 
 export const getcoupon = createAsyncThunk(
     "coupon/getallcoupon",
@@ -101,7 +102,8 @@ export const couponlice= createSlice({
                             state.isSuccess = true;
                             state.isError=false;
                             state.ismessage=true;
-                            state.coupon = action.payload;
+                            state.coupones = action.payload;
+                            toast.success("Coupon ajouter avec succés")
                             } )
                             .addCase(creecoupon.rejected ,(state,action)=>{
                                 state.isLoading = false;
@@ -118,7 +120,6 @@ export const couponlice= createSlice({
                                     state.isSuccess = true;
                                     state.isError = false;
                                     state.coupon = action.payload;
-                                    console.log("Data from getacoupon:", action.payload); // Ajoutez ce console.log pour obtenir des informations sur les données reçues
                                   })
                                   .addCase(getacoupon.rejected, (state, action) => {
                                     state.isLoading = false;
@@ -135,6 +136,7 @@ export const couponlice= createSlice({
                                                     state.isError=false;
                                                     state.isupdated=true;
                                                     state.couponss = action.payload;
+                            toast.success("Coupon modifier avec succés")
                                                     } )
                                                     .addCase(updatecoupon.rejected ,(state,action)=>{
                                                         state.isLoading = false;
@@ -151,6 +153,8 @@ export const couponlice= createSlice({
                                                                 state.isSuccess = true;
                                                                 state.isError=false;
                                                                 state.couponssa = action.payload;
+                            toast.success("Coupon supprimer avec succés")
+
                                                                 } )
                                                                 .addCase(delcoupon.rejected ,(state,action)=>{
                                                                     state.isLoading = false;
