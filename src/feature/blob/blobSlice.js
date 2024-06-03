@@ -144,7 +144,7 @@ export const blogSlice = createSlice({
                 state.isError=false;
                 state.isupdated=true;
                 state.upblogs= action.payload;
-           toast.success(("blog modifier avec succés"))
+               toast.success(("blog modifier avec succés"))
 
             })
             .addCase(updateablogs.rejected ,(state,action)=>{

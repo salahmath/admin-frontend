@@ -23,7 +23,7 @@ import {
 import "react-widgets/styles.css";
 import { getcoleur } from "../feature/color/colorSlice";
 import Multiselect from "react-widgets/Multiselect";
-import { deleteimg, uploads } from "../feature/uploadimage/uploadslice";
+import { deleteimg, resetsValy, uploads } from "../feature/uploadimage/uploadslice";
 import {
   createProduct,
   getaProduct,
@@ -88,7 +88,7 @@ function Addproduct() {
   }, [getproductid]);
   const [visible , setVisible]=useState(false)
   const img = [];
-
+  const [valeurimage, setValeurimage] = useState([]);
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -101,7 +101,7 @@ function Addproduct() {
       quantite: get_aProduct.quantite || "",
       tags: get_aProduct.tags || "",
       solde: get_aProduct.solde || "",
-      images:  [],
+      images: [],
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
@@ -133,6 +133,7 @@ function Addproduct() {
           dispatch(createProduct(values)).then(() => {
             setTimeout(() => {
               dispatch(resetstt());
+              setValeurimage([])
               navigate("/admin/product-list");
             }, 1000);
           });
@@ -144,7 +145,14 @@ function Addproduct() {
     },
     
   });
-  const [valeurimage, setValeurimage] = useState([]);
+  useEffect(() => {
+    // Réinitialiser l'état des images et les valeurs de Formik lors de l'ajout d'un nouveau produit
+    if (!getproductid) {
+      setValeurimage([]);
+      formik.resetForm();
+      dispatch(resetsValy())
+    }
+  }, [getproductid]);
   useEffect(() => {
     if (Image?.length > 0) {
       Image?.forEach((i) => {
@@ -169,11 +177,17 @@ function Addproduct() {
     dispatch(getcategories());
     dispatch(getcoleur());
   }, [dispatch]);
+  const getColorName = (hex) => {
+    const convert = require("color-convert");
+    const rgb = convert.hex.rgb(hex);
+    const colorName = convert.rgb.keyword(rgb);
+    return colorName || hex; // Si aucune correspondance trouvée, retourne le code hexadécimal
+  };
   const colors = colorstate.map((color) => ({
     _id: color._id,
     color: color.name,
   }));
-
+console.log(valeurimage);
   const beforeUpload = (file, fileList) => {
     const expectedFiles = 4; // Nombre d'images attendues
     if (fileList?.length !== expectedFiles) {
@@ -184,12 +198,11 @@ function Addproduct() {
     formik.setFieldValue("images", fileList);
     return false;
   };
-  
+ 
   useEffect(() => {
     // Update the visibility based on formik.values.tags
     setVisible(formik.values.tags === "En solde");
   }, [formik.values.tags]); 
-
   useEffect(() => {
     if (isSuccess && isupdated && get_aProduct) {
       toast.success("la blog a été mise à jour avec succès.");
@@ -198,6 +211,7 @@ function Addproduct() {
       toast.error("Erreur lors de l'ajout du produit");
     }
   }, [isSuccess, isError, isLoading, isupdated, get_aProduct]);
+console.log(valeurimage);
   return (
     <div className="mb-4">
     <ToastContainer
@@ -247,7 +261,7 @@ function Addproduct() {
           <br />
           <Customlogin
             type="Number"
-            Label="Entrer le prix"
+            Label="Entrer le prix DT"
             name="price"
             onChange={formik.handleChange("price")}
             onblur={formik.handleBlur("price")}
@@ -333,16 +347,18 @@ function Addproduct() {
           <br />
 
           <Multiselect
-            name="color"
-            onChange={(value) => formik.setFieldValue("color", value)} // Mettez à jour les couleurs sélectionnées dans formik
-            dataKey="_id"
-            textField="color"
-            data={colors}
-            value={formik.values.color} // Utilisez la valeur des couleurs sélectionnées depuis formik
-          />
-          <div className="error1">
-            {formik.touched.color && formik.errors.color}
-          </div>
+  name="color"
+  onChange={(value) => formik.setFieldValue("color", value)}
+  dataKey="_id"
+  textField={(item) => getColorName(item.color)} // Utiliser la fonction getColorName pour obtenir le nom de la couleur
+  data={colors}
+  value={formik.values.color}
+/>
+<div className="error1">
+  {formik.touched.color && formik.errors.color}
+</div>
+
+
           <br />
           {visible === true ? (
         <>

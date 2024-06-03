@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 import uploasService from "./uploadservice";
 
@@ -34,7 +34,7 @@ const initialState = {
     isSuccess:false,
     message:""
 }
-
+export const resetsValy = createAction("reset_upload");
 export const uploadslice= createSlice({
     name : "upload",
     initialState,
@@ -70,6 +70,7 @@ export const uploadslice= createSlice({
                                 state.isError=true;
                                 state.message = action.error;
                                 } )
+                                .addCase(resetsValy,()=>initialState)
     },
 })
 

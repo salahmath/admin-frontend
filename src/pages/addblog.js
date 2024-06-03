@@ -25,7 +25,7 @@ import {
   updateablogs,
 } from "../feature/blob/blobSlice";
 import { getcategoryblog } from "../feature/bloglist/bloglistslice";
-import { deleteimg, uploads } from "../feature/uploadimage/uploadslice";
+import { deleteimg, resetsValy, uploads } from "../feature/uploadimage/uploadslice";
 
 function Addblog() {
   let userSchema = object({
@@ -67,7 +67,6 @@ function Addblog() {
     initialValues: {
       title: blogs?.title || "",
       description: blogs?.description || "",
-
       category: blogs?.category || "",
 
       image: [],
@@ -82,8 +81,7 @@ function Addblog() {
           return false;
         } else{
         dispatch(updateablogs(data)).then(()=>{
-          dispatch(exporState());
-          window.location.reload()
+          dispatch(resetsValy())
           navigate("/admin/list-blog");
         });
 ;
@@ -96,15 +94,13 @@ function Addblog() {
         } else{
           dispatch(creeblogs(values)).then(()=>{
             navigate("/admin/list-blog");
-            window.location.reload()
+            dispatch(resetsValy());
           })
 
         }
       }
-
       setTimeout(() => {
         formik.resetForm();
-        dispatch(exporState());
       }, 3000);
     },
   });
@@ -160,10 +156,8 @@ function Addblog() {
     // Dispatch votre action Redux pour gérer le téléchargement des fichiers
     dispatch(uploads(fileList));
     formik.setFieldValue("image", fileList);
-
     return false;
   };
-
   useEffect(() => {
     if (isSuccess && isupdated && upblogs) {
       toast.success("la blog a été mise à jour avec succès.");
@@ -172,7 +166,6 @@ function Addblog() {
       toast.error("Erreur lors de l'ajout du blog");
     }
   }, [isSuccess, isError, isupdated, upblogs]);
-
   useEffect(() => {
     dispatch(getcategoryblog());
   }, [dispatch]);
@@ -320,7 +313,6 @@ function Addblog() {
             {formik.touched.description && formik.errors.description}
           </div>
           <br />
-
           <br />
         </Form>
       </div>
