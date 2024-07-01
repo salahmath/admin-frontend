@@ -1,12 +1,11 @@
-import React, { useEffect} from 'react';
-import CustomLogin from '../componentes/Coustomlogin'; // Assurez-vous que le chemin d'importation est correct
-import {Link, useNavigate}from"react-router-dom"
 import { useFormik } from 'formik';
-import { object, string, number, date, InferType } from 'yup';
-import { login } from '../feature/auth/authslice';
-import { ToastContainer } from "react-toastify";
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { object, string } from 'yup';
+import CustomLogin from '../componentes/Coustomlogin'; // Assurez-vous que le chemin d'importation est correct
+import { login } from '../feature/auth/authslice';
 const  Login=()=>{
   const Dispatch = useDispatch();
   const navigate  = useNavigate();
@@ -21,14 +20,11 @@ if(user!=="null" && isSuccess ){
 }
   },[user,isLogin , isSuccess , isError , message,navigate])
   let userSchema = object({
-
     email: string().email('il faut ecriver un email validé').required("il faut ecriver votre email"),
     password: string().required("il faut ecriver votre mot de passe"),
   });
   const formik = useFormik({
-   
-    initialValues: { 
-      
+    initialValues: {
       email: '',
       password:''
     },
@@ -74,7 +70,7 @@ if(user!=="null" && isSuccess ){
            
             <button 
              className='border-0 px-3 py-2 text-white fw-bold w-100 ' style={{background:"#494b18"}} type='submit'>
-              connecter
+              Connecter
             </button>
            
           </form>

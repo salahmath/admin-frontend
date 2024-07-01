@@ -104,7 +104,7 @@ console.log(brstate?.coupon);
             draggable
             theme="dark"
           />
-      <h3>{getidcoupon !== undefined ? "Modifier la coupon" : "Ajouter une coupon"} un coupon</h3>
+      <h3>{getidcoupon !== undefined ? "Modifier la coupon" : "Ajouter une coupon"}</h3>
       <form onSubmit={formik.handleSubmit}>
         <label htmlFor="name">Nom:</label>
         <Customlogin

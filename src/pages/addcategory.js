@@ -80,7 +80,7 @@ const loca = location.pathname.split("/")[3]
   
   return (
     <div>
-      <h3 > {(loca!==undefined)?"Modifier le category":"Ajouter une categorie"} une categorie</h3>
+      <h3 > {(loca!==undefined)?"Modifier le category":"Ajouter une categorie"} </h3>
       <br />
       <ToastContainer
             position="top-right"

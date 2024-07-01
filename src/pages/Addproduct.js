@@ -105,7 +105,7 @@ function Addproduct() {
     },
     validationSchema: userSchema,
     onSubmit: (values) => {
-      if (getproductid !== undefined) {
+      /* if (getproductid !== undefined) {
         const data = { id: getproductid, data: values };
         if (formik?.values?.color?.length === 0) {
           toast.error('Il faut choisir une couleur');
@@ -140,8 +140,8 @@ function Addproduct() {
         }
       }
     
-      formik.resetForm();
-      // alert(JSON.stringify(values));
+      formik.resetForm(); */
+       alert(JSON.stringify(values));
     },
     
   });
@@ -345,15 +345,32 @@ console.log(valeurimage);
           <br />
 
           <br />
+          <Form.Select
+  label="Select Color"
+  name="color"
+  value={formik.values.color || []} // Assurez-vous que c'est un tableau
+  onChange={(e) => {
+    const selectedColor = colors.find(color => color._id === e.target.value);
+    formik.setFieldValue("color", [{ id: e.target.value, color: selectedColor.color }]);
+  }} // Modifiez la valeur pour qu'elle soit un tableau d'objets
+  onBlur={() => formik.setFieldTouched("color", true)}
+>
+<option>Choisir un couleur</option>
+  {colors.map((color) => (
+    <option key={color._id} value={color._id}>
+      {getColorName(color.color)}
+    </option>
+  ))}
+</Form.Select>
 
-          <Multiselect
+          {/* <Multiselect
   name="color"
   onChange={(value) => formik.setFieldValue("color", value)}
   dataKey="_id"
   textField={(item) => getColorName(item.color)} // Utiliser la fonction getColorName pour obtenir le nom de la couleur
   data={colors}
   value={formik.values.color}
-/>
+/> */}
 <div className="error1">
   {formik.touched.color && formik.errors.color}
 </div>

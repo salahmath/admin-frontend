@@ -84,9 +84,9 @@ let conteur = 0
                 <Link className="ms-3 fs-5" onClick={()=>(showModal( customerState[i]._id))}>
                     <MdDelete />
                 </Link>
-                {customerState[i].isblocked ?  <FaRegEye className="ms-3 fs-5" onClick={()=>(debloquer( customerState[i]._id))}>
+                {customerState[i].isblocked ?  <ImEyeBlocked ImEyeBlocked className="ms-3 fs-5" onClick={()=>(debloquer( customerState[i]._id))}>
                     
-                </FaRegEye> : <ImEyeBlocked className="ms-3 fs-5" onClick={()=>(bloquer( customerState[i]._id))}/>
+                </ImEyeBlocked> : <FaRegEye className="ms-3 fs-5" onClick={()=>(bloquer( customerState[i]._id))}/>
                    }
                
                 
